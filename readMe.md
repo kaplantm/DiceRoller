@@ -1,6 +1,7 @@
 TODO:
 
-- images
+- images (dice shapes, lock icon)
+- theming / custom colors
 - auto scroll container (clear should scroll back to top? x on dices should scroll up?)
 - clear
 - lock/reroll

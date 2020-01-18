@@ -11,5 +11,9 @@ export interface iDie {
   type: eDice;
   currentValue?: number;
   locked: boolean;
-  onClick: any;
+  onClick?: any;
+  onDoubleClick?: any;
+  onLongPress?: any;
+  index?: number;
+  size?: 'small' | 'medium' | 'large';
 }
