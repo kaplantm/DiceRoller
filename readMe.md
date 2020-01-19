@@ -7,3 +7,5 @@ TODO:
 - lock/reroll
 - how to lock vs delete? (hold vs click)
 - were to show total (top right, top left is app name?)
+
+images: https://github.com/stormreaever/dice
