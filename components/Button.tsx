@@ -30,7 +30,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
     // flexGrow: 1,
   },
-  buttonContainer: {},
+  buttonContainer: {
+    borderRadius: 5,
+  },
   buttonContainerShadow: {
     borderRadius: 5,
     justifyContent: 'center',
