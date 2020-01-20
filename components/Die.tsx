@@ -3,13 +3,12 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   TouchableHighlight,
-  Image,
+  YellowBox,
 } from 'react-native';
 import {eDice, iDie} from '../types/types';
 import {Assets} from '../assets';
-// import D4 from '../assets/svgs/D4';
+import Colors from '../theme/colors';
 
 export function Die(props: iDie) {
   const [lastPressTime, setLastPressTime] = useState(0);
@@ -44,8 +43,9 @@ export function Die(props: iDie) {
     setLastPressTime(new Date().getTime());
   };
 
-  const opacity = props.locked ? 0.5 : 1;
+  const opacity = props.opacity || (props.locked ? 0.5 : 1);
 
+  console.log(props.opacity, opacity);
   function handleLongPress() {
     props.onLongPress && props.onLongPress(actionParams);
   }
@@ -59,23 +59,52 @@ export function Die(props: iDie) {
       style={[styles.highlight]}
       onPress={onPress}
       onLongPress={handleLongPress}>
-      <View
-        style={[
-          styles.die,
-          styles[props.type],
-          styles[props.size || 'small'],
-          {opacity},
-        ]}>
-        <SvgComponent />
-        <Text>{props.currentValue}</Text>
+      <View style={[styles.medium, styles.dieContainer]}>
+        <View
+          style={[
+            styles.die,
+            styles[props.size || 'small'],
+            styles[props.type],
+            {opacity},
+          ]}>
+          <SvgComponent />
+        </View>
+        {props.showLabel && <Text style={[styles.dieText]}>{props.type}</Text>}
       </View>
     </TouchableHighlight>
   );
 }
 
+// <View style={[styles.die, styles[props.size || 'small']]}>
+//   <Text style={[styles.dieText]}>{props.type}</Text>
+// </View>
 const styles = StyleSheet.create({
+  dieContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // backgroundColor: 'yellow',
+  },
   die: {
-    margin: 10,
+    // backgroundColor: 'red',
+    // margin: 10,
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dieText: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: Colors.white,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   highlight: {
     borderRadius: 10,
@@ -86,17 +115,16 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
   small: {height: 80, width: 80},
   medium: {height: 100, width: 100},
   large: {height: 120, width: 120},
   locked: {opacity: 0.5},
-  [eDice.TWENTY]: {backgroundColor: 'red'},
-  [eDice.TWELVE]: {backgroundColor: 'green'},
-  [eDice.TEN]: {backgroundColor: 'blue'},
-  [eDice.EIGHT]: {backgroundColor: 'yellow'},
-  [eDice.SIX]: {backgroundColor: 'violet'},
-  [eDice.FOUR]: {backgroundColor: 'orange'},
+  [eDice.TWENTY]: {},
+  [eDice.TWELVE]: {},
+  [eDice.TEN]: {},
+  [eDice.EIGHT]: {},
+  [eDice.SIX]: {},
+  [eDice.FOUR]: {},
 });

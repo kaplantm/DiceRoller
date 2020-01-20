@@ -8,7 +8,6 @@ declare var global: {HermesInternal: null | {}};
 
 const DiceBar = ({onDieClick}: {onDieClick: any}) => {
   function renderOneOfEachDice() {
-    console.log({onDieClick});
     return DICE_TYPES.map(type => (
       <View style={styles.dieContainer} key={type}>
         <Die
@@ -16,6 +15,8 @@ const DiceBar = ({onDieClick}: {onDieClick: any}) => {
           locked={true}
           currentValue={type}
           onClick={onDieClick}
+          opacity={1}
+          showLabel={true}
         />
       </View>
     ));
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   dieContainer: {
-    backgroundColor: 'pink',
+    backgroundColor: Colors.lighter,
+    padding: 10,
     alignItems: 'center',
     flex: 1,
     flexBasis: '33%',

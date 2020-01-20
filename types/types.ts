@@ -16,4 +16,6 @@ export interface iDie {
   onLongPress?: any;
   index?: number;
   size?: 'small' | 'medium' | 'large';
+  opacity?: number;
+  showLabel?: boolean;
 }
