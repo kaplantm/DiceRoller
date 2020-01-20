@@ -7,17 +7,24 @@ const Button = ({
   children,
   onPress,
   style = {},
+  neumorphism = true,
 }: {
   children: any;
-  onPress: any;
-  style: object;
+  onPress?: any;
+  style?: object;
+  neumorphism?: boolean;
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.touchableOpacity, style]}>
-      <View style={[styles.buttonContainer, globalStyles.topShadow]}>
-        <View style={[styles.buttonContainerShadow, globalStyles.bottomShadow]}>
+      <View
+        style={[styles.buttonContainer, neumorphism && globalStyles.topShadow]}>
+        <View
+          style={[
+            styles.buttonContainerShadow,
+            neumorphism && globalStyles.bottomShadow,
+          ]}>
           {children}
         </View>
       </View>

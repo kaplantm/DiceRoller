@@ -7,20 +7,19 @@ const ValueDisplay = ({
   label,
   value,
   useSignedValue = false,
+  onPress,
 }: {
   label?: string;
   value: number;
   useSignedValue?: boolean;
+  onPress?: any;
 }) => {
   const signedValue = value >= 0 ? `+ ${value}` : `- ${Math.abs(value)}`;
 
   return (
     <View
-      style={[
-        globalStyles.topShadow,
-        styles.valueContainer,
-        styles.marginTwenty,
-      ]}>
+      onTouchEnd={onPress}
+      style={[globalStyles.topShadow, styles.valueContainer]}>
       <View style={[globalStyles.bottomShadow, styles.valueInner]}>
         {label && <Text style={[styles.label]}>{label}</Text>}
         <View style={[styles.value]}>
@@ -35,10 +34,12 @@ const ValueDisplay = ({
 
 const styles = StyleSheet.create({
   valueContainer: {
+    height: 30,
     borderRadius: 5,
     backgroundColor: Colors.lighter,
     flexDirection: 'row',
     flex: 1,
+    maxWidth: 150,
   },
   valueInner: {
     backgroundColor: Colors.lighter,
@@ -61,10 +62,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.red,
-  },
-  marginTwenty: {
-    margin: 20,
+    color: Colors.blue.main,
   },
 });
 

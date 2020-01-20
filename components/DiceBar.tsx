@@ -22,7 +22,7 @@ const DiceBar = ({onDieClick}: {onDieClick: any}) => {
   }
   return (
     <View style={[globalStyles.topShadow]}>
-      <View style={[styles.staticDiceContainer, globalStyles.bottomShadow]}>
+      <View style={[globalStyles.bottomShadow, styles.staticDiceContainer]}>
         {renderOneOfEachDice()}
       </View>
     </View>
@@ -32,6 +32,7 @@ const DiceBar = ({onDieClick}: {onDieClick: any}) => {
 // <View style={[styles.dieContainerShadow, globalStyles.bottomShadow]} />
 const styles = StyleSheet.create({
   staticDiceContainer: {
+    backgroundColor: Colors.mediumLight,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

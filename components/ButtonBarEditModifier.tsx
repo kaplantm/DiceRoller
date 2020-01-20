@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import Colors from '../theme/colors';
 import Button from './Button';
 import ValueDisplay from './ValueDisplay';
@@ -30,53 +29,18 @@ const ButtonBarEditModifier = ({
 
   return (
     <>
-      <Button onPress={subtractOneFromModifier} style={styles.marginTwenty}>
-        <Icon name="remove" size={30} color={Colors.red} />
+      <Button onPress={subtractOneFromModifier}>
+        <Icon name="remove" size={30} color={Colors.blue.main} />
       </Button>
-      <ValueDisplay value={modifier} useSignedValue={true} label="Modifier: " />
-      <Button onPress={addOneToModifier} style={styles.marginTwenty}>
-        <Icon name="add" size={30} color={Colors.red} />
+      <ValueDisplay value={modifier} useSignedValue={true} label="MODIFIER: " />
+      <Button onPress={addOneToModifier}>
+        <Icon name="add" size={30} color={Colors.blue.main} />
       </Button>
-      <Button onPress={toggleEditModifier} style={styles.marginTwenty}>
-        <Icon name="check" size={30} color={Colors.red} />
+      <Button onPress={toggleEditModifier}>
+        <Icon name="check" size={30} color={Colors.blue.main} />
       </Button>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  modifierContainer: {
-    borderRadius: 5,
-    backgroundColor: Colors.lighter,
-    flexDirection: 'row',
-    flex: 1,
-  },
-  modifier: {
-    backgroundColor: Colors.lighter,
-    borderRadius: 5,
-    flex: 1,
-    padding: 3,
-    paddingHorizontal: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  modifierLabel: {
-    opacity: 0.5,
-  },
-  modifierValue: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontWeight: '600',
-    fontSize: 20,
-    color: Colors.red,
-  },
-  marginTwenty: {
-    margin: 20,
-  },
-});
 
 export default ButtonBarEditModifier;

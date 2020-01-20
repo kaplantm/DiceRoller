@@ -5,12 +5,18 @@ import ButtonBarButtons from './ButtonBarButtons';
 import ButtonBarEditModifier from './ButtonBarEditModifier';
 
 const ButtonBar = ({
+  instructionMode,
+  setCurrentInstruction,
+  setShowingInstructions,
   reRollUnlocked,
   clearAllDice,
   setModifier,
   modifier,
   getTotal,
 }: {
+  instructionMode: boolean;
+  setCurrentInstruction: any;
+  setShowingInstructions: any;
   reRollUnlocked: any;
   clearAllDice: any;
   setModifier: any;
@@ -22,20 +28,23 @@ const ButtonBar = ({
   return (
     <View style={styles.buttonBar}>
       {editModifier ? (
+        <ButtonBarEditModifier
+          setEditModifier={setEditModifier}
+          editModifier={editModifier}
+          setModifier={setModifier}
+          modifier={modifier}
+        />
+      ) : (
         <ButtonBarButtons
+          setCurrentInstruction={setCurrentInstruction}
+          instructionMode={instructionMode}
+          setShowingInstructions={setShowingInstructions}
           setEditModifier={setEditModifier}
           editModifier={editModifier}
           reRollUnlocked={reRollUnlocked}
           clearAllDice={clearAllDice}
           modifier={modifier}
           getTotal={getTotal}
-        />
-      ) : (
-        <ButtonBarEditModifier
-          setEditModifier={setEditModifier}
-          editModifier={editModifier}
-          setModifier={setModifier}
-          modifier={modifier}
         />
       )}
     </View>
@@ -44,11 +53,12 @@ const ButtonBar = ({
 
 const styles = StyleSheet.create({
   buttonBar: {
-    height: 70,
+    margin: 10,
+    marginBottom: 20,
     borderBottomColor: Colors.light,
     borderBottomWidth: 2,
     flexDirection: 'row',
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
 });

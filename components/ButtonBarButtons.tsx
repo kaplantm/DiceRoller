@@ -6,6 +6,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ValueDisplay from './ValueDisplay';
 
 const ButtonBarButtons = ({
+  setCurrentInstruction,
+  instructionMode,
+  setShowingInstructions,
   reRollUnlocked,
   clearAllDice,
   modifier,
@@ -13,6 +16,9 @@ const ButtonBarButtons = ({
   editModifier,
   getTotal,
 }: {
+  setCurrentInstruction: any;
+  instructionMode: boolean;
+  setShowingInstructions: any;
   reRollUnlocked: any;
   clearAllDice: any;
   modifier: number;
@@ -26,19 +32,45 @@ const ButtonBarButtons = ({
   function toggleEditModifier() {
     setEditModifier(!editModifier);
   }
+
+  function toggleEditModifierInstructions() {
+    setCurrentInstruction(
+      'Click to change your modifier value. Your modifier value is added to the sum of your dice to create the total.',
+    );
+  }
+
+  function totalInstructions() {
+    setCurrentInstruction('The sum of all your dice and your modifier.');
+  }
+
+  function toggleInstructions() {
+    setCurrentInstruction('Click any element on screen to learn more.');
+    setShowingInstructions(!instructionMode);
+  }
+
   return (
     <>
-      <Button onPress={reRollUnlocked} style={styles.marginTwenty}>
-        <Icon name="refresh" size={30} color={Colors.red} />
+      <Button onPress={toggleInstructions} neumorphism={false}>
+        <Icon name="help-outline" size={30} color={Colors.dark} />
       </Button>
-      <ValueDisplay value={getTotal()} label="Total: " />
-      <Button onPress={toggleEditModifier} style={[styles.marginTwenty]}>
+      <Button onPress={reRollUnlocked}>
+        <Icon name="refresh" size={30} color={Colors.blue.main} />
+      </Button>
+      <ValueDisplay
+        onPress={instructionMode ? totalInstructions : undefined}
+        value={getTotal()}
+        label="TOTAL: "
+      />
+      <Button
+        onPress={
+          instructionMode ? toggleEditModifierInstructions : toggleEditModifier
+        }>
         <View style={styles.modifier}>
           <Text style={styles.text}>{modifierDisplay}</Text>
         </View>
       </Button>
-      <Button onPress={clearAllDice} style={styles.marginTwenty}>
-        <Icon name="clear" size={30} color={Colors.red} />
+      <Button onPress={clearAllDice}>
+        <Icon name="clear" size={30} color={Colors.blue.main} />
       </Button>
     </>
   );
@@ -69,10 +101,11 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.red,
+    color: Colors.blue.main,
   },
-  marginTwenty: {
-    margin: 20,
+
+  marginRightTen: {
+    marginRight: 10,
   },
 });
 
