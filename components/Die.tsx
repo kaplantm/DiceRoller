@@ -5,8 +5,11 @@ import {
   Text,
   TouchableOpacity,
   TouchableHighlight,
+  Image,
 } from 'react-native';
 import {eDice, iDie} from '../types/types';
+import {Assets} from '../assets';
+// import D4 from '../assets/svgs/D4';
 
 export function Die(props: iDie) {
   const [lastPressTime, setLastPressTime] = useState(0);
@@ -47,6 +50,8 @@ export function Die(props: iDie) {
     props.onLongPress && props.onLongPress(actionParams);
   }
 
+  const SvgComponent = Assets.svgComponents[props.type];
+
   return (
     <TouchableHighlight
       activeOpacity={1}
@@ -61,6 +66,7 @@ export function Die(props: iDie) {
           styles[props.size || 'small'],
           {opacity},
         ]}>
+        <SvgComponent />
         <Text>{props.currentValue}</Text>
       </View>
     </TouchableHighlight>

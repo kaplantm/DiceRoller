@@ -25,7 +25,7 @@ import {iDie} from 'types/types';
 const App = () => {
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
 
-  function renderActiceDice() {
+  function renderActiveDice() {
     const size =
       activeDice.length > 10
         ? 'small'
@@ -99,7 +99,7 @@ const App = () => {
               // @ts-ignore
               this.scrollView.scrollToEnd({animated: true});
             }}>
-            <View style={styles.scrollView}>{renderActiceDice()}</View>
+            <View style={styles.scrollView}>{renderActiveDice()}</View>
           </ScrollView>
         </View>
 

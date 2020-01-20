@@ -9,3 +9,5 @@ TODO:
 - were to show total (top right, top left is app name?)
 
 images: https://github.com/stormreaever/dice
+
+modifier per die or per roll?
