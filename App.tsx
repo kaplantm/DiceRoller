@@ -9,17 +9,16 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, View, Text} from 'react-native';
+import {SafeAreaView, StyleSheet, ScrollView, View} from 'react-native';
 import Colors from './theme/colors';
 import DiceBar from './components/DiceBar';
 import Die from './components/Die';
-import Button from './components/Button';
-import {iDie} from 'types/types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import globalStyles from './theme/globalStyle';
+import {iDie} from './types/types';
+import ButtonBar from './components/ButtonBar';
 
 const App = () => {
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
+  const [modifier, setModifier] = useState<number>(0);
 
   function renderActiveDice() {
     const size =
@@ -54,7 +53,7 @@ const App = () => {
   function getTotal() {
     const reducer = (accumulator: number, currentDie: iDie) =>
       accumulator + (currentDie.currentValue || 0);
-    return activeDice.reduce(reducer, 0);
+    return activeDice.reduce(reducer, 0) + modifier;
   }
 
   function clearAllDice() {
@@ -97,21 +96,13 @@ const App = () => {
             <View style={styles.scrollView}>{renderActiveDice()}</View>
           </ScrollView>
         </View>
-
-        <View style={styles.buttonBar}>
-          <Button onPress={reRollUnlocked} style={styles.marginTwenty}>
-            <Icon name="refresh" size={30} color="#900" />
-          </Button>
-          <View
-            style={[globalStyles.topShadow, styles.total, styles.marginTwenty]}>
-            <View style={[globalStyles.bottomShadow, styles.totalInner]}>
-              <Text style={styles.totalText}>{getTotal()}</Text>
-            </View>
-          </View>
-          <Button onPress={clearAllDice} style={styles.marginTwenty}>
-            <Icon name="clear" size={30} color="#900" />
-          </Button>
-        </View>
+        <ButtonBar
+          reRollUnlocked={reRollUnlocked}
+          clearAllDice={clearAllDice}
+          setModifier={setModifier}
+          modifier={modifier}
+          getTotal={getTotal}
+        />
         <DiceBar onDieClick={addActiveDie} />
       </SafeAreaView>
     </View>
@@ -127,41 +118,6 @@ const styles = StyleSheet.create({
   scrollViewWrapper: {
     flex: 1,
     backgroundColor: Colors.light,
-  },
-  total: {
-    borderRadius: 5,
-    backgroundColor: Colors.lighter,
-    flexDirection: 'row',
-    // borderWidth: 1,
-    // borderColor: Colors.mediumLight,
-    flex: 1,
-  },
-  totalInner: {
-    backgroundColor: Colors.lighter,
-    borderRadius: 5,
-    // borderWidth: 1,
-    // borderColor: Colors.mediumLight,
-    flex: 1,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  totalText: {
-    fontWeight: '600',
-    fontSize: 20,
-    color: Colors.red,
-  },
-  marginTwenty: {
-    margin: 20,
-  },
-  buttonBar: {
-    // backgroundColor: Colors.lighter,
-    // marginBottom: 10,
-    borderBottomColor: Colors.light,
-    borderBottomWidth: 2,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
   },
   scrollView: {
     padding: 10,
