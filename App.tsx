@@ -9,18 +9,14 @@
  */
 
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, ScrollView, View, Text} from 'react-native';
 import Colors from './theme/colors';
 import DiceBar from './components/DiceBar';
-import {Die} from './components/Die';
+import Die from './components/Die';
+import Button from './components/Button';
 import {iDie} from 'types/types';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import globalStyles from './theme/globalStyle';
 
 const App = () => {
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
@@ -91,7 +87,6 @@ const App = () => {
     <View style={styles.appContainer}>
       <SafeAreaView style={styles.appContainer}>
         <View style={styles.scrollViewWrapper}>
-          <Text>Total: {getTotal()}</Text>
           <ScrollView
             // @ts-ignore
             ref={ref => (this.scrollView = ref)}
@@ -103,8 +98,20 @@ const App = () => {
           </ScrollView>
         </View>
 
-        <Button title="Clear All" onPress={clearAllDice} />
-        <Button title="Re Roll" onPress={reRollUnlocked} />
+        <View style={styles.buttonBar}>
+          <Button onPress={reRollUnlocked} style={styles.marginTwenty}>
+            <Icon name="refresh" size={30} color="#900" />
+          </Button>
+          <View
+            style={[globalStyles.topShadow, styles.total, styles.marginTwenty]}>
+            <View style={[globalStyles.bottomShadow, styles.totalInner]}>
+              <Text style={styles.totalText}>{getTotal()}</Text>
+            </View>
+          </View>
+          <Button onPress={clearAllDice} style={styles.marginTwenty}>
+            <Icon name="clear" size={30} color="#900" />
+          </Button>
+        </View>
         <DiceBar onDieClick={addActiveDie} />
       </SafeAreaView>
     </View>
@@ -115,15 +122,46 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.dark,
+    backgroundColor: Colors.light,
   },
   scrollViewWrapper: {
     flex: 1,
     backgroundColor: Colors.light,
   },
-  scrollViewWrapper2: {
+  total: {
+    borderRadius: 5,
+    backgroundColor: Colors.lighter,
+    flexDirection: 'row',
+    // borderWidth: 1,
+    // borderColor: Colors.mediumLight,
     flex: 1,
-    backgroundColor: Colors.mediumLight,
+  },
+  totalInner: {
+    backgroundColor: Colors.lighter,
+    borderRadius: 5,
+    // borderWidth: 1,
+    // borderColor: Colors.mediumLight,
+    flex: 1,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  totalText: {
+    fontWeight: '600',
+    fontSize: 20,
+    color: Colors.red,
+  },
+  marginTwenty: {
+    margin: 20,
+  },
+  buttonBar: {
+    // backgroundColor: Colors.lighter,
+    // marginBottom: 10,
+    borderBottomColor: Colors.light,
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
   },
   scrollView: {
     padding: 10,

@@ -1,16 +1,11 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
-  YellowBox,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
 import {eDice, iDie} from '../types/types';
 import {Assets} from '../assets';
 import Colors from '../theme/colors';
+import {textPositionMap} from '../constants/constants';
 
-export function Die(props: iDie) {
+export default function Die(props: iDie) {
   const [lastPressTime, setLastPressTime] = useState(0);
   const [timeOutState, setTimeoutState] = useState();
 
@@ -59,7 +54,7 @@ export function Die(props: iDie) {
       style={[styles.highlight]}
       onPress={onPress}
       onLongPress={handleLongPress}>
-      <View style={[styles.medium, styles.dieContainer]}>
+      <View style={[styles[props.size || 'small'], styles.dieContainer]}>
         <View
           style={[
             styles.die,
@@ -69,27 +64,41 @@ export function Die(props: iDie) {
           ]}>
           <SvgComponent />
         </View>
-        {props.showLabel && <Text style={[styles.dieText]}>{props.type}</Text>}
+        <View
+          style={[
+            styles.dieTextContainer,
+            styles[props.size || 'small'],
+            styles[props.type],
+            {
+              ...textPositionMap[props.type].small,
+              ...textPositionMap[props.type][props.size || 'small'],
+            },
+          ]}>
+          <Text style={[styles.dieText]}>{props.currentValue}</Text>
+        </View>
       </View>
     </TouchableHighlight>
   );
 }
 
-// <View style={[styles.die, styles[props.size || 'small']]}>
-//   <Text style={[styles.dieText]}>{props.type}</Text>
-// </View>
 const styles = StyleSheet.create({
   dieContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     // backgroundColor: 'yellow',
   },
   die: {
     // backgroundColor: 'red',
-    // margin: 10,
-    // position: 'absolute',
-    // top: 0,
-    // left: 0,
+    padding: 8,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dieTextContainer: {
+    // backgroundColor: 'orange',
+    position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -117,9 +126,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  small: {height: 80, width: 80},
-  medium: {height: 100, width: 100},
-  large: {height: 120, width: 120},
+  small: {height: 100, width: 100},
+  medium: {height: 120, width: 120},
+  large: {height: 140, width: 140},
   locked: {opacity: 0.5},
   [eDice.TWENTY]: {},
   [eDice.TWELVE]: {},

@@ -1,10 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Colors from '../theme/colors';
-import {Die} from './Die';
+import Die from './Die';
 import {DICE_TYPES} from '../constants/constants';
-
-declare var global: {HermesInternal: null | {}};
+import globalStyles from '../theme/globalStyle';
 
 const DiceBar = ({onDieClick}: {onDieClick: any}) => {
   function renderOneOfEachDice() {
@@ -22,22 +21,24 @@ const DiceBar = ({onDieClick}: {onDieClick: any}) => {
     ));
   }
   return (
-    <View style={styles.staticDiceContainer}>{renderOneOfEachDice()}</View>
+    <View style={[globalStyles.topShadow]}>
+      <View style={[styles.staticDiceContainer, globalStyles.bottomShadow]}>
+        {renderOneOfEachDice()}
+      </View>
+    </View>
   );
 };
 
+// <View style={[styles.dieContainerShadow, globalStyles.bottomShadow]} />
 const styles = StyleSheet.create({
   staticDiceContainer: {
-    paddingVertical: 20,
-    backgroundColor: Colors.mediumDark,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   dieContainer: {
-    backgroundColor: Colors.lighter,
-    padding: 10,
+    // backgroundColor: Colors.lighter,
     alignItems: 'center',
     flex: 1,
     flexBasis: '33%',

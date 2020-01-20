@@ -1,7 +1,7 @@
 import React from 'react';
 import {Svg, Path} from 'react-native-svg';
 
-const D4 = () => {
+const D20 = () => {
   return (
     <Svg height="100%" width="100%" viewBox="0 0 102 116.6">
       <Path d="M0.5,29.2 L49.2,24.5 L20.8,73.6 z" fill="#B72121" />
@@ -18,4 +18,4 @@ const D4 = () => {
   );
 };
 
-export default D4;
+export default D20;

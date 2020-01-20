@@ -5,8 +5,9 @@ const Colors = {
   mediumDark: 'hsla(211, 53%, 29%, 1)',
   medium: 'hsla(225, 56%, 37%, 1)',
   mediumLight: 'hsla(202, 65%, 58%, 1)',
-  light: 'hsla(178, 59%, 54%, 1)',
-  lighter: 'hsla(178, 0%, 90%, 1)',
+  // light: 'hsla(207, 62%, 94%, 1)',
+  light: 'hsla(207, 52%, 94%, 1)',
+  lighter: 'hsla(207, 52%, 98%, 1)',
   red: '#B72121',
   white: '#FFF',
 };
