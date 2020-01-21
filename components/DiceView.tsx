@@ -44,9 +44,9 @@ const DiceView = ({
 
   function renderActiveDice() {
     const size =
-      activeDice.length > 10
+      activeDice.length > 6
         ? 'small'
-        : activeDice.length > 5
+        : activeDice.length > 4
         ? 'medium'
         : 'large';
     return activeDice.map((activeDie: iDie, index: number) => (
@@ -161,10 +161,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     padding: 10,
+    paddingRight: 15,
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    width: '100%',
     justifyContent: 'space-between',
   },
   center: {
@@ -177,8 +179,9 @@ const styles = StyleSheet.create({
   dieContainer: {
     // backgroundColor: 'orange',
     alignItems: 'center',
-    flexBasis: '33%',
-    flexGrow: 0,
+    // flexBasis: '10%',
+    // width: '10%',
+    // flexGrow: 0,
   },
 });
 
