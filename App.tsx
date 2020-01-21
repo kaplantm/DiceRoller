@@ -13,15 +13,12 @@ import {SafeAreaView, StyleSheet, ScrollView, Text, View} from 'react-native';
 import Colors from './theme/colors';
 import {iDie} from './types/types';
 import DiceView from './components/DiceView';
-import Instructions from './components/Instructions';
 
 const App = () => {
   const [instructionMode, setInstructionMode] = useState<boolean>(false);
   const [currentInstruction, setCurrentInstruction] = useState<string>(
     'Click any element on screen to learn more.',
   );
-  const [activeDice, setActiveDice] = useState<iDie[]>([]);
-  const [modifier, setModifier] = useState<number>(0);
 
   return (
     <View style={styles.appContainer}>
@@ -34,10 +31,6 @@ const App = () => {
           </View>
         )}
         <DiceView
-          activeDice={activeDice}
-          setActiveDice={setActiveDice}
-          modifier={modifier}
-          setModifier={setModifier}
           setInstructionMode={setInstructionMode}
           instructionMode={instructionMode}
           setCurrentInstruction={setCurrentInstruction}

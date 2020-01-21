@@ -18,4 +18,5 @@ export interface iDie {
   size?: 'small' | 'medium' | 'large';
   opacity?: number;
   showLabel?: boolean;
+  modifier?: number;
 }

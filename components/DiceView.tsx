@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import Colors from '../theme/colors';
 import DiceBar from '../components/DiceBar';
@@ -8,24 +8,19 @@ import ButtonBar from '../components/ButtonBar';
 import globalStyles from '../theme/globalStyle';
 
 const DiceView = ({
-  activeDice,
-  setActiveDice,
-  modifier,
-  setModifier,
   setInstructionMode,
   instructionMode,
   setCurrentInstruction,
 }: {
-  activeDice: iDie[];
-  setActiveDice: any;
-  modifier: number;
-  setModifier: any;
   setInstructionMode: any;
   instructionMode: boolean;
   setCurrentInstruction: any;
 }) => {
+  const [activeDice, setActiveDice] = useState<iDie[]>([]);
+  const [modifier, setModifier] = useState<number>(0);
+
   function addActiveDieInstructions() {
-    setCurrentInstruction('Dice menu. Click to roll a new dice.');
+    setCurrentInstruction('Dice menu. Click any dice to roll it.');
   }
   function reRollUnlockedInstructions() {
     setCurrentInstruction(
@@ -41,6 +36,12 @@ const DiceView = ({
     );
   }
 
+  function setSingleDieModifierInstructions() {
+    setCurrentInstruction(
+      'Individual die modifier. Value adjustment on this die. Click to adjust.',
+    );
+  }
+
   function renderActiveDice() {
     const size =
       activeDice.length > 10
@@ -49,16 +50,26 @@ const DiceView = ({
         ? 'medium'
         : 'large';
     return activeDice.map((activeDie: iDie, index: number) => (
-      <Die
-        {...activeDie}
-        size={size}
-        index={index}
-        onClick={instructionMode ? clickActiveDieInstructions : undefined}
-        onDoubleClick={instructionMode ? undefined : removeActiveDie}
-        onLongPress={instructionMode ? undefined : toggleLockActiveDie}
-        key={`activeDie${index}`}
-      />
+      <View key={`activeDie${index}`} style={styles.dieContainer}>
+        <Die
+          {...activeDie}
+          instructionMode={instructionMode}
+          setModifierInstructions={setSingleDieModifierInstructions}
+          updateActiveDieModifier={updateActiveDieModifier}
+          size={size}
+          index={index}
+          onClick={instructionMode ? clickActiveDieInstructions : undefined}
+          onDoubleClick={instructionMode ? undefined : removeActiveDie}
+          onLongPress={instructionMode ? undefined : toggleLockActiveDie}
+        />
+      </View>
     ));
+  }
+
+  function updateActiveDieModifier(index: number, modifierValue: number) {
+    const activeDiceCopy = [...activeDice];
+    activeDiceCopy[index].modifier = modifierValue;
+    setActiveDice(activeDiceCopy);
   }
 
   function reRollUnlocked() {
@@ -74,7 +85,7 @@ const DiceView = ({
 
   function getTotal() {
     const reducer = (accumulator: number, currentDie: iDie) =>
-      accumulator + (currentDie.currentValue || 0);
+      accumulator + (currentDie.currentValue || 0) + (currentDie.modifier || 0);
     return activeDice.reduce(reducer, 0) + modifier;
   }
 
@@ -114,7 +125,10 @@ const DiceView = ({
             // @ts-ignore
             this.scrollView.scrollToEnd({animated: true});
           }}>
-          <View style={styles.scrollView}>{renderActiveDice()}</View>
+          <View
+            style={[styles.scrollView, activeDice.length < 2 && styles.center]}>
+            {renderActiveDice()}
+          </View>
         </ScrollView>
 
         <View style={[globalStyles.topShadow, styles.bottomScrollShadow]} />
@@ -132,6 +146,8 @@ const DiceView = ({
         getTotal={getTotal}
       />
       <DiceBar
+        instructionMode={instructionMode}
+        setCurrentInstruction={setCurrentInstruction}
         onDieClick={instructionMode ? addActiveDieInstructions : addActiveDie}
       />
     </>
@@ -146,13 +162,23 @@ const styles = StyleSheet.create({
   scrollView: {
     padding: 10,
     flex: 1,
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
+  center: {
+    justifyContent: 'center',
+  },
   bottomScrollShadow: {
     shadowColor: Colors.light,
     height: 10,
+  },
+  dieContainer: {
+    // backgroundColor: 'orange',
+    alignItems: 'center',
+    flexBasis: '33%',
+    flexGrow: 0,
   },
 });
 

@@ -5,11 +5,27 @@ import Die from './Die';
 import {DICE_TYPES} from '../constants/constants';
 import globalStyles from '../theme/globalStyle';
 
-const DiceBar = ({onDieClick}: {onDieClick: any}) => {
+const DiceBar = ({
+  onDieClick,
+  instructionMode,
+  setCurrentInstruction,
+}: {
+  onDieClick: any;
+  instructionMode: boolean;
+  setCurrentInstruction: any;
+}) => {
+  function setModifierInstructions() {
+    setCurrentInstruction(
+      'Die roll modifier. Value adjustment made to each roll of this die. Click to adjust.',
+    );
+  }
+
   function renderOneOfEachDice() {
     return DICE_TYPES.map(type => (
       <View style={styles.dieContainer} key={type}>
         <Die
+          instructionMode={instructionMode}
+          setModifierInstructions={setModifierInstructions}
           type={type}
           locked={true}
           currentValue={type}

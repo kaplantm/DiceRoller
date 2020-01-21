@@ -9,11 +9,13 @@ const ButtonBarEditModifier = ({
   modifier,
   setEditModifier,
   editModifier,
+  inDie = false,
 }: {
   setModifier: any;
   modifier: number;
   setEditModifier: any;
   editModifier: boolean;
+  inDie: boolean;
 }) => {
   function toggleEditModifier() {
     setEditModifier(!editModifier);
@@ -27,19 +29,42 @@ const ButtonBarEditModifier = ({
     setModifier(modifier + 1);
   }
 
+  function renderButtonBarEditModifier() {
+    return (
+      <>
+        <Button onPress={subtractOneFromModifier}>
+          <Icon name="remove" size={30} color={Colors.blue.main} />
+        </Button>
+        <ValueDisplay
+          value={modifier}
+          useSignedValue={true}
+          label="MODIFIER: "
+        />
+        <Button onPress={addOneToModifier}>
+          <Icon name="add" size={30} color={Colors.blue.main} />
+        </Button>
+        <Button onPress={toggleEditModifier}>
+          <Icon name="check" size={30} color={Colors.blue.main} />
+        </Button>
+      </>
+    );
+  }
+
+  function renderInDieEditModifier() {
+    return (
+      <>
+        <Button onPress={subtractOneFromModifier}>
+          <Icon name="remove" size={30} color={Colors.blue.main} />
+        </Button>
+        <Button onPress={addOneToModifier}>
+          <Icon name="add" size={30} color={Colors.blue.main} />
+        </Button>
+      </>
+    );
+  }
+
   return (
-    <>
-      <Button onPress={subtractOneFromModifier}>
-        <Icon name="remove" size={30} color={Colors.blue.main} />
-      </Button>
-      <ValueDisplay value={modifier} useSignedValue={true} label="MODIFIER: " />
-      <Button onPress={addOneToModifier}>
-        <Icon name="add" size={30} color={Colors.blue.main} />
-      </Button>
-      <Button onPress={toggleEditModifier}>
-        <Icon name="check" size={30} color={Colors.blue.main} />
-      </Button>
-    </>
+    <>{inDie ? renderInDieEditModifier() : renderButtonBarEditModifier()}</>
   );
 };
 

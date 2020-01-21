@@ -14,9 +14,9 @@ export const textPositionMap = {
   [eDice.SIX]: {small: {}, medium: {}, large: {}},
   [eDice.EIGHT]: {small: {}, medium: {}, large: {}},
   [eDice.TEN]: {
-    small: {top: -19, left: 1},
-    medium: {top: -23, left: 1},
-    large: {top: -28, left: 1},
+    small: {paddingTop: 18, top: 0, left: 1, justifyContent: 'flex-start'},
+    medium: {paddingTop: 23, top: 0, left: 1},
+    large: {paddingTop: 28, top: 0, left: 1},
   },
   [eDice.TWELVE]: {small: {}, medium: {}, large: {}},
   [eDice.TWENTY]: {

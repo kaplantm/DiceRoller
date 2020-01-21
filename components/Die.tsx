@@ -1,23 +1,40 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
 import {eDice, iDie} from '../types/types';
 import {Assets} from '../assets';
 import Colors from '../theme/colors';
 import {textPositionMap} from '../constants/constants';
+import DieModifierEditor from './DieModifierEditor';
 
-export default function Die(props: iDie) {
+export default function Die(
+  props: iDie & {
+    updateActiveDieModifier?: any;
+    instructionMode: boolean;
+    setModifierInstructions: any;
+  },
+) {
   const [lastPressTime, setLastPressTime] = useState(0);
   const [timeOutState, setTimeoutState] = useState();
+  const [showEditModifierPane, setShowEditModifierPane] = useState(false);
+  const [modifier, setModifier] = useState(props.modifier || 0);
 
   const actionParams = {
     type: props.type,
     locked: false,
     currentValue: Math.ceil(Math.random() * props.type),
     index: props.index,
+    modifier,
   };
 
   const doubleTapMaxTime = 200;
   const onPress = () => {
+    setShowEditModifierPane(false);
     var delta = new Date().getTime() - lastPressTime;
 
     if (delta < doubleTapMaxTime && props.onDoubleClick) {
@@ -38,46 +55,84 @@ export default function Die(props: iDie) {
     setLastPressTime(new Date().getTime());
   };
 
-  const opacity = props.opacity || (props.locked ? 0.5 : 1);
+  function toggleShowEditModifierPane() {
+    setShowEditModifierPane(!showEditModifierPane);
+  }
 
-  console.log(props.opacity, opacity);
   function handleLongPress() {
     props.onLongPress && props.onLongPress(actionParams);
   }
 
+  function updateModifier(value: number) {
+    setModifier(value);
+    props.updateActiveDieModifier &&
+      props.updateActiveDieModifier(props.index, value);
+  }
+
+  const opacity = props.opacity || (props.locked ? 0.5 : 1);
   const SvgComponent = Assets.svgComponents[props.type];
 
   return (
-    <TouchableHighlight
-      activeOpacity={1}
-      underlayColor={'hsla(178, 0%, 100%, .3)'}
-      style={[styles.highlight]}
-      onPress={onPress}
-      onLongPress={handleLongPress}>
-      <View style={[styles[props.size || 'small'], styles.dieContainer]}>
-        <View
-          style={[
-            styles.die,
-            styles[props.size || 'small'],
-            styles[props.type],
-            {opacity},
-          ]}>
-          <SvgComponent />
+    <>
+      <TouchableHighlight
+        activeOpacity={1}
+        underlayColor={'hsla(178, 0%, 100%, .3)'}
+        style={[styles.highlight]}
+        onPress={onPress}
+        onLongPress={handleLongPress}>
+        <View style={[styles[props.size || 'small'], styles.dieContainer]}>
+          <View
+            style={[
+              styles.die,
+              styles[props.size || 'small'],
+              styles[props.type],
+              {opacity},
+            ]}>
+            <SvgComponent />
+          </View>
+          <View
+            style={[
+              styles.dieTextContainer,
+              styles[props.size || 'small'],
+              styles[props.type],
+              {
+                ...textPositionMap[props.type].small,
+                ...textPositionMap[props.type][props.size || 'small'],
+              },
+            ]}>
+            <Text style={[styles.dieText]}>{props.currentValue}</Text>
+          </View>
+
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[
+              styles.modifierContainer,
+              modifier && modifier >= 0
+                ? styles.positiveModifier
+                : styles.negativeModifier,
+            ]}
+            onPress={
+              props.instructionMode
+                ? props.setModifierInstructions
+                : toggleShowEditModifierPane
+            }>
+            <Text style={[styles.modifierText]}>{modifier || 0}</Text>
+          </TouchableOpacity>
         </View>
-        <View
-          style={[
-            styles.dieTextContainer,
-            styles[props.size || 'small'],
-            styles[props.type],
-            {
-              ...textPositionMap[props.type].small,
-              ...textPositionMap[props.type][props.size || 'small'],
-            },
-          ]}>
-          <Text style={[styles.dieText]}>{props.currentValue}</Text>
-        </View>
-      </View>
-    </TouchableHighlight>
+      </TouchableHighlight>
+      {showEditModifierPane && (
+        <DieModifierEditor
+          setModifier={
+            props.instructionMode
+              ? props.setModifierInstructions
+              : updateModifier
+          }
+          modifier={modifier}
+          setEditModifier={setShowEditModifierPane}
+          editModifier={showEditModifierPane}
+        />
+      )}
+    </>
   );
 }
 
@@ -85,7 +140,6 @@ const styles = StyleSheet.create({
   dieContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'yellow',
   },
   die: {
     // backgroundColor: 'red',
@@ -101,6 +155,29 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  modifierContainer: {
+    position: 'absolute',
+    bottom: 3,
+    right: 3,
+    height: 32,
+    width: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: Colors.mediumLight,
+  },
+  positiveModifier: {
+    backgroundColor: Colors.green.main,
+  },
+  negativeModifier: {
+    backgroundColor: Colors.red.light,
+  },
+  modifierText: {
+    fontSize: 13,
+    color: Colors.light,
+    fontWeight: '800',
   },
   dieText: {
     fontSize: 20,

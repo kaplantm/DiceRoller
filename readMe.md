@@ -11,3 +11,5 @@ TODO:
 images: https://github.com/stormreaever/dice
 
 modifier per die or per roll?
+
+tap outside to close die mod pane?
