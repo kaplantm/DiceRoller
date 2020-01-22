@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import Colors from '../theme/colors';
 import DiceBar from '../components/DiceBar';
@@ -6,6 +6,7 @@ import Die from '../components/Die';
 import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
 import globalStyles from '../theme/globalStyle';
+import RNShake from 'react-native-shake';
 
 const DiceView = ({
   setInstructionMode,
@@ -23,6 +24,15 @@ const DiceView = ({
   console.log({outsideTarget: outsideTarget});
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
   const [modifier, setModifier] = useState<number>(0);
+
+  useEffect(() => {
+    RNShake.addEventListener('ShakeEvent', () => {
+      reRollUnlocked();
+    });
+    return function cleanup() {
+      RNShake.removeEventListener('ShakeEvent');
+    };
+  });
 
   function addActiveDieInstructions() {
     setCurrentInstruction('Dice menu. Click any dice to roll it.');
