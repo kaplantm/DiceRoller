@@ -7,6 +7,7 @@ import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
 import globalStyles from '../theme/globalStyle';
 import RNShake from 'react-native-shake';
+import {doFunctionAtIntervalForTime} from '../shared/helpers';
 
 const DiceView = ({
   setInstructionMode,

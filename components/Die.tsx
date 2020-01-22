@@ -11,6 +11,10 @@ import {Assets} from '../assets';
 import Colors from '../theme/colors';
 import {textPositionMap} from '../constants/constants';
 import DieModifierEditor from './DieModifierEditor';
+import {
+  doFunctionAtIntervalForTime,
+  randomNumberInRange,
+} from '../shared/helpers';
 
 export default function Die(
   props: iDie & {
@@ -26,6 +30,25 @@ export default function Die(
   const [timeOutState, setTimeoutState] = useState();
   const [showEditModifierPane, setShowEditModifierPane] = useState(false);
   const [modifier, setModifier] = useState(props.modifier || 0);
+  const [displayValue, setDisplayValue] = useState(props.currentValue);
+  const [rollOpacity, setRollOpacity] = useState(props.opacity);
+
+  useEffect(() => {
+    console.log('useEffect to set die value');
+    doFunctionAtIntervalForTime(
+      () => {
+        const rand = Math.random();
+        setDisplayValue(Math.ceil(rand * props.type));
+        setRollOpacity(randomNumberInRange(5, 6, rand) / 10);
+      },
+      60,
+      300,
+      () => {
+        setDisplayValue(props.currentValue);
+        setRollOpacity(1);
+      },
+    );
+  }, [props.currentValue]);
 
   useEffect(() => {
     console.log('USE EFFECT DIE', props.outsideTarget);
@@ -94,7 +117,12 @@ export default function Die(
         style={[styles.highlight]}
         onPress={onPress}
         onLongPress={handleLongPress}>
-        <View style={[styles[props.size || 'small'], styles.dieContainer]}>
+        <View
+          style={[
+            styles[props.size || 'small'],
+            styles.dieContainer,
+            {opacity: rollOpacity},
+          ]}>
           <View
             style={[
               styles.die,
@@ -114,7 +142,7 @@ export default function Die(
                 ...textPositionMap[props.type][props.size || 'small'],
               },
             ]}>
-            <Text style={[styles.dieText]}>{props.currentValue}</Text>
+            <Text style={[styles.dieText]}>{displayValue}</Text>
           </View>
 
           <TouchableOpacity
