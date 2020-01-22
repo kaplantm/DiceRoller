@@ -8,6 +8,7 @@ const Colors = {
   light: 'hsla(207, 52%, 94%, 1)',
   lighter: 'hsla(207, 52%, 98%, 1)',
   red: {
+    lighter: 'hsla(0, 55%, 67%, 1)',
     light: 'hsla(0, 66%, 47%, 1)',
     main: 'hsla(0, 69%, 42%, 1)',
     medium: 'hsla(0, 72%, 38%, 1)',
@@ -16,6 +17,7 @@ const Colors = {
     darkest: 'hsla(0, 79%, 28%, 1)',
   },
   blue: {
+    lighter: 'hsla(200, 55%, 57%, 1)',
     light: 'hsla(200, 66%, 47%, 1)',
     main: 'hsla(200, 69%, 42%, 1)',
     medium: 'hsla(200, 72%, 38%, 1)',
@@ -24,6 +26,7 @@ const Colors = {
     darkest: 'hsla(200, 79%, 28%, 1)',
   },
   green: {
+    lighter: 'hsla(100, 50%, 50%, 1)',
     light: 'hsla(100, 66%, 47%, 1)',
     main: 'hsla(100, 69%, 42%, 1)',
     medium: 'hsla(100, 72%, 38%, 1)',

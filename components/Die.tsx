@@ -109,6 +109,8 @@ export default function Die(
               styles.modifierContainer,
               modifier && modifier >= 0
                 ? styles.positiveModifier
+                : modifier === 0
+                ? styles.zeroModifier
                 : styles.negativeModifier,
             ]}
             onPress={
@@ -168,11 +170,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colors.mediumLight,
   },
+  zeroModifier: {
+    backgroundColor: Colors.blue.lighter,
+  },
   positiveModifier: {
-    backgroundColor: Colors.green.main,
+    backgroundColor: Colors.green.lighter,
   },
   negativeModifier: {
-    backgroundColor: Colors.red.light,
+    backgroundColor: Colors.red.lighter,
   },
   modifierText: {
     fontSize: 13,
