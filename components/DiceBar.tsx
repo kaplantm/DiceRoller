@@ -9,10 +9,14 @@ const DiceBar = ({
   onDieClick,
   instructionMode,
   setCurrentInstruction,
+  setOutsideTargetFunc,
+  outsideTarget,
 }: {
   onDieClick: any;
   instructionMode: boolean;
   setCurrentInstruction: any;
+  setOutsideTargetFunc: any;
+  outsideTarget: boolean;
 }) => {
   function setModifierInstructions() {
     setCurrentInstruction(
@@ -32,6 +36,8 @@ const DiceBar = ({
           onClick={onDieClick}
           opacity={1}
           showLabel={true}
+          setOutsideTargetFunc={setOutsideTargetFunc}
+          outsideTarget={outsideTarget}
         />
       </View>
     ));

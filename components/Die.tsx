@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,12 +17,22 @@ export default function Die(
     updateActiveDieModifier?: any;
     instructionMode: boolean;
     setModifierInstructions: any;
+    setOutsideTargetFunc: any;
+    outsideTarget: boolean;
   },
 ) {
+  console.log({outsideTarget: props.outsideTarget});
   const [lastPressTime, setLastPressTime] = useState(0);
   const [timeOutState, setTimeoutState] = useState();
   const [showEditModifierPane, setShowEditModifierPane] = useState(false);
   const [modifier, setModifier] = useState(props.modifier || 0);
+
+  useEffect(() => {
+    console.log('USE EFFECT DIE', props.outsideTarget);
+    if (props.outsideTarget) {
+      setShowEditModifierPane(false);
+    }
+  }, [props.outsideTarget]);
 
   const actionParams = {
     type: props.type,
@@ -34,6 +44,8 @@ export default function Die(
 
   const doubleTapMaxTime = 200;
   const onPress = () => {
+    props.setOutsideTargetFunc && props.setOutsideTargetFunc(true);
+    console.log('onpress', props.setOutsideTargetFunc);
     setShowEditModifierPane(false);
     var delta = new Date().getTime() - lastPressTime;
 
@@ -56,10 +68,12 @@ export default function Die(
   };
 
   function toggleShowEditModifierPane() {
+    props.setOutsideTargetFunc && props.setOutsideTargetFunc(true);
     setShowEditModifierPane(!showEditModifierPane);
   }
 
   function handleLongPress() {
+    props.setOutsideTargetFunc && props.setOutsideTargetFunc(true);
     props.onLongPress && props.onLongPress(actionParams);
   }
 
@@ -122,7 +136,7 @@ export default function Die(
           </TouchableOpacity>
         </View>
       </TouchableHighlight>
-      {showEditModifierPane && (
+      {showEditModifierPane && !props.outsideTarget && (
         <DieModifierEditor
           setModifier={
             props.instructionMode

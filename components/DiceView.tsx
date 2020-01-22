@@ -11,11 +11,16 @@ const DiceView = ({
   setInstructionMode,
   instructionMode,
   setCurrentInstruction,
+  setOutsideTargetFunc,
+  outsideTarget,
 }: {
   setInstructionMode: any;
   instructionMode: boolean;
   setCurrentInstruction: any;
+  setOutsideTargetFunc: any;
+  outsideTarget: boolean;
 }) => {
+  console.log({outsideTarget: outsideTarget});
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
   const [modifier, setModifier] = useState<number>(0);
 
@@ -43,6 +48,7 @@ const DiceView = ({
   }
 
   function renderActiveDice() {
+    // console.log('renderActiveDice', setInsideTarget);
     const size =
       activeDice.length > 6
         ? 'small'
@@ -61,6 +67,8 @@ const DiceView = ({
           onClick={instructionMode ? clickActiveDieInstructions : undefined}
           onDoubleClick={instructionMode ? undefined : removeActiveDie}
           onLongPress={instructionMode ? undefined : toggleLockActiveDie}
+          setOutsideTargetFunc={setOutsideTargetFunc}
+          outsideTarget={outsideTarget}
         />
       </View>
     ));
@@ -149,6 +157,8 @@ const DiceView = ({
         instructionMode={instructionMode}
         setCurrentInstruction={setCurrentInstruction}
         onDieClick={instructionMode ? addActiveDieInstructions : addActiveDie}
+        setOutsideTargetFunc={setOutsideTargetFunc}
+        outsideTarget={outsideTarget}
       />
     </>
   );

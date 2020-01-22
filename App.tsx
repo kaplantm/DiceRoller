@@ -8,21 +8,102 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  PanResponder,
+  PanResponderStatic,
+} from 'react-native';
 import Colors from './theme/colors';
 import {iDie} from './types/types';
 import DiceView from './components/DiceView';
 
 const App = () => {
   const [instructionMode, setInstructionMode] = useState<boolean>(false);
+
+  const [outsideTarget, setOutsideTarget] = useState<boolean>(true);
   const [currentInstruction, setCurrentInstruction] = useState<string>(
     'Click any element on screen to learn more.',
   );
 
+  const touchThreshold = 20;
+
+  // let _panResponder = PanResponder.create({
+  //   onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+  //     console.log('onMoveShouldSetPanResponderCapture');
+  //     const {dx, dy} = gestureState;
+
+  //     return Math.abs(dx) > touchThreshold || Math.abs(dy) > touchThreshold;
+  //   },
+  //   onPanResponderMove: (evt, gestureState) => {
+  //     console.log('Responder' + evt.nativeEvent.target);
+  //     setOutsideTarget(true);
+  //     // The most recent move distance is gestureState.move{X,Y}
+
+  //     // The accumulated gesture distance since becoming responder is
+  //     // gestureState.d{x,y}
+  //   },
+  //   onPanResponderTerminationRequest: (evt, gestureState) => true,
+  // });
+
+  const panResponder = React.useMemo(
+    () =>
+      PanResponder.create({
+        // Ask to be the responder:
+        onStartShouldSetPanResponder: (evt, gestureState) => {
+          console.log('onStartShouldSetPanResponder');
+          return true;
+        },
+        // onMoveShouldSetPanResponder: (evt, gestureState) => {
+        //   console.log('onMoveShouldSetPanResponder');
+        //   return true;
+        // },
+        onPanResponderGrant: (evt, gestureState) => {
+          console.log('onPanResponderGrant');
+          setOutsideTarget(true);
+          return true;
+        },
+        // onPanResponderMove: (evt, gestureState) => {
+        //   console.log('onPanResponderMove');
+        //   return true;
+        // },
+        onPanResponderTerminationRequest: (evt, gestureState) => {
+          console.log('onPanResponderTerminationRequest');
+          return true;
+        },
+      }),
+    [],
+  );
+
+  useEffect(() => {
+    console.log('USE EFFECT', panResponder);
+    if (!panResponder) {
+      console.log('no pan');
+    } else {
+      if (outsideTarget) {
+        console.log('Success', 'Component Clicked OutSide');
+      } else if (outsideTarget) {
+        console.log('Success', 'Component Clicked Inside');
+      }
+    }
+  }, [outsideTarget]);
+
+  const setOutsideTargetFunc = () => {
+    console.log('inside');
+    setOutsideTarget(false);
+  };
+
   return (
-    <View style={styles.appContainer}>
-      <SafeAreaView style={styles.appContainer}>
+    <View
+      style={styles.appContainer}
+      {...(panResponder ? panResponder.panHandlers : {})}>
+      <SafeAreaView
+        style={styles.appContainer}
+        {...(panResponder ? panResponder.panHandlers : {})}>
         {instructionMode && (
           <View style={styles.instructionContainer}>
             <Text style={styles.instructionContainerText}>
@@ -34,6 +115,8 @@ const App = () => {
           setInstructionMode={setInstructionMode}
           instructionMode={instructionMode}
           setCurrentInstruction={setCurrentInstruction}
+          setOutsideTargetFunc={setOutsideTargetFunc}
+          outsideTarget={outsideTarget}
         />
       </SafeAreaView>
     </View>
