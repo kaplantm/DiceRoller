@@ -1,15 +1,6 @@
-TODO:
+Dnd Dice Roller App Made in React Native
 
-- images (dice shapes, lock icon)
-- theming / custom colors
-- auto scroll container (clear should scroll back to top? x on dices should scroll up?)
-- clear
-- lock/reroll
-- how to lock vs delete? (hold vs click)
-- were to show total (top right, top left is app name?)
+Images From (used with permission): https://github.com/stormreaever/dice
 
-images: https://github.com/stormreaever/dice
-
-modifier per die or per roll?
-
-tap outside to close die mod pane?
+- Needs code clean since it was made in just a few hours.
+- Would benefit from a state management library (e.g. redux) but i don't feel like it

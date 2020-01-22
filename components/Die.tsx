@@ -36,10 +36,9 @@ export default function Die(
   useEffect(() => {
     console.log('useEffect to set die value');
     doFunctionAtIntervalForTime(
-      () => {
-        const rand = Math.random();
-        setDisplayValue(Math.ceil(rand * props.type));
-        setRollOpacity(randomNumberInRange(5, 6, rand) / 10);
+      (timeEllapsed: number) => {
+        setDisplayValue(Math.ceil(Math.random() * props.type));
+        setRollOpacity(timeEllapsed / 600 + 0.5);
       },
       60,
       300,
@@ -106,17 +105,26 @@ export default function Die(
       props.updateActiveDieModifier(props.index, value);
   }
 
-  const opacity = props.opacity || (props.locked ? 0.5 : 1);
+  const opacity = props.opacity || (props.locked ? 0.3 : 1);
   const SvgComponent = Assets.svgComponents[props.type];
 
+  const DieContainerComponent = props.onLongPress
+    ? TouchableHighlight
+    : TouchableOpacity;
+
+  const DieContainerComponentProps = props.onLongPress
+    ? {
+        activeOpacity: 1,
+        underlayColor: 'hsla(178, 0%, 100%, .8)',
+        onLongPress: handleLongPress,
+      }
+    : {};
   return (
     <>
-      <TouchableHighlight
-        activeOpacity={1}
-        underlayColor={'hsla(178, 0%, 100%, .3)'}
+      <DieContainerComponent
+        {...DieContainerComponentProps}
         style={[styles.highlight]}
-        onPress={onPress}
-        onLongPress={handleLongPress}>
+        onPress={onPress}>
         <View
           style={[
             styles[props.size || 'small'],
@@ -163,7 +171,7 @@ export default function Die(
             <Text style={[styles.modifierText]}>{modifier || 0}</Text>
           </TouchableOpacity>
         </View>
-      </TouchableHighlight>
+      </DieContainerComponent>
       {showEditModifierPane && !props.outsideTarget && (
         <DieModifierEditor
           setModifier={

@@ -6,12 +6,13 @@ export const doFunctionAtIntervalForTime = (
 ) => {
   const startTime = new Date().getTime();
   const interval = setInterval(function() {
-    if (new Date().getTime() - startTime > endTime) {
+    const timeEllapsed = new Date().getTime() - startTime;
+    if (timeEllapsed > endTime) {
       clearInterval(interval);
       callback && callback();
       return;
     }
-    func();
+    func(timeEllapsed);
   }, intervalTime);
 };
 
