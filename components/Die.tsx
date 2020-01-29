@@ -38,7 +38,7 @@ export default function Die(
     doFunctionAtIntervalForTime(
       (timeEllapsed: number) => {
         setDisplayValue(Math.ceil(Math.random() * props.type));
-        setRollOpacity(timeEllapsed / 600 + 0.5);
+        setRollOpacity(Math.random() + 0.3);
       },
       60,
       300,

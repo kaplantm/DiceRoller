@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View, Vibration} from 'react-native';
 import Colors from '../theme/colors';
 import DiceBar from '../components/DiceBar';
 import Die from '../components/Die';
@@ -7,7 +7,6 @@ import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
 import globalStyles from '../theme/globalStyle';
 import RNShake from 'react-native-shake';
-import {doFunctionAtIntervalForTime} from '../shared/helpers';
 
 const DiceView = ({
   setInstructionMode,
@@ -28,7 +27,7 @@ const DiceView = ({
 
   useEffect(() => {
     RNShake.addEventListener('ShakeEvent', () => {
-      reRollUnlocked();
+      debouncedReRollUnlockedWithVibration();
     });
     return function cleanup() {
       RNShake.removeEventListener('ShakeEvent');
@@ -89,6 +88,21 @@ const DiceView = ({
     const activeDiceCopy = [...activeDice];
     activeDiceCopy[index].modifier = modifierValue;
     setActiveDice(activeDiceCopy);
+  }
+
+  let lastCalledTime = 0;
+
+  const debounce = (func: () => void) => {
+    const now = new Date().getTime();
+    if (now - lastCalledTime > 100) {
+      func();
+      lastCalledTime = now;
+    }
+  };
+
+  function debouncedReRollUnlockedWithVibration() {
+    Vibration.vibrate([0]);
+    debounce(reRollUnlocked);
   }
 
   function reRollUnlocked() {
