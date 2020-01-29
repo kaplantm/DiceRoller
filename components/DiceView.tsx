@@ -21,7 +21,6 @@ const DiceView = ({
   setOutsideTargetFunc: any;
   outsideTarget: boolean;
 }) => {
-  console.log({outsideTarget: outsideTarget});
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
   const [modifier, setModifier] = useState<number>(0);
 
@@ -58,7 +57,6 @@ const DiceView = ({
   }
 
   function renderActiveDice() {
-    // console.log('renderActiveDice', setInsideTarget);
     const size =
       activeDice.length > 6
         ? 'small'
@@ -109,7 +107,11 @@ const DiceView = ({
     setActiveDice(
       activeDice.map((die: iDie) => {
         if (!die.locked) {
-          die.currentValue = Math.ceil(Math.random() * die.type);
+          const newDieValue = Math.ceil(Math.random() * die.type);
+          die.currentValue =
+            die.currentValue === newDieValue
+              ? newDieValue + 0.001 //forces rerender even if rolls the same value
+              : newDieValue;
         }
         return die;
       }),

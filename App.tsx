@@ -30,70 +30,24 @@ const App = () => {
     'Click any element on screen to learn more.',
   );
 
-  const touchThreshold = 20;
-
-  // let _panResponder = PanResponder.create({
-  //   onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-  //     console.log('onMoveShouldSetPanResponderCapture');
-  //     const {dx, dy} = gestureState;
-
-  //     return Math.abs(dx) > touchThreshold || Math.abs(dy) > touchThreshold;
-  //   },
-  //   onPanResponderMove: (evt, gestureState) => {
-  //     console.log('Responder' + evt.nativeEvent.target);
-  //     setOutsideTarget(true);
-  //     // The most recent move distance is gestureState.move{X,Y}
-
-  //     // The accumulated gesture distance since becoming responder is
-  //     // gestureState.d{x,y}
-  //   },
-  //   onPanResponderTerminationRequest: (evt, gestureState) => true,
-  // });
-
   const panResponder = React.useMemo(
     () =>
       PanResponder.create({
-        // Ask to be the responder:
-        onStartShouldSetPanResponder: (evt, gestureState) => {
-          console.log('onStartShouldSetPanResponder');
+        onStartShouldSetPanResponder: () => {
           return true;
         },
-        // onMoveShouldSetPanResponder: (evt, gestureState) => {
-        //   console.log('onMoveShouldSetPanResponder');
-        //   return true;
-        // },
-        onPanResponderGrant: (evt, gestureState) => {
-          console.log('onPanResponderGrant');
+        onPanResponderGrant: () => {
           setOutsideTarget(true);
           return true;
         },
-        // onPanResponderMove: (evt, gestureState) => {
-        //   console.log('onPanResponderMove');
-        //   return true;
-        // },
-        onPanResponderTerminationRequest: (evt, gestureState) => {
-          console.log('onPanResponderTerminationRequest');
+        onPanResponderTerminationRequest: () => {
           return true;
         },
       }),
     [],
   );
 
-  useEffect(() => {
-    console.log('USE EFFECT', panResponder);
-    if (!panResponder) {
-      console.log('no pan');
-    } else {
-      if (outsideTarget) {
-        console.log('Success', 'Component Clicked OutSide');
-      } else if (outsideTarget) {
-        console.log('Success', 'Component Clicked Inside');
-      }
-    }
-  }, [outsideTarget]);
-
   const setOutsideTargetFunc = () => {
-    console.log('inside');
     setOutsideTarget(false);
   };
 

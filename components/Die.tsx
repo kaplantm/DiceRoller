@@ -25,7 +25,6 @@ export default function Die(
     outsideTarget: boolean;
   },
 ) {
-  console.log({outsideTarget: props.outsideTarget});
   const [lastPressTime, setLastPressTime] = useState(0);
   const [timeOutState, setTimeoutState] = useState();
   const [showEditModifierPane, setShowEditModifierPane] = useState(false);
@@ -35,7 +34,6 @@ export default function Die(
   const [rollOpacity, setRollOpacity] = useState(props.opacity);
 
   useEffect(() => {
-    console.log('useEffect to set die value');
     doFunctionAtIntervalForTime(
       (timeEllapsed: number) => {
         setDisplayValue(Math.ceil(Math.random() * props.type));
@@ -53,7 +51,6 @@ export default function Die(
   }, [props.currentValue]);
 
   useEffect(() => {
-    console.log('USE EFFECT DIE', props.outsideTarget);
     if (props.outsideTarget) {
       setShowEditModifierPane(false);
     }
@@ -70,7 +67,6 @@ export default function Die(
   const doubleTapMaxTime = 200;
   const onPress = () => {
     props.setOutsideTargetFunc && props.setOutsideTargetFunc(true);
-    console.log('onpress', props.setOutsideTargetFunc);
     setShowEditModifierPane(false);
     var delta = new Date().getTime() - lastPressTime;
 
@@ -153,7 +149,9 @@ export default function Die(
                 ...textPositionMap[props.type][props.size || 'small'],
               },
             ]}>
-            <Text style={[styles.dieText]}>{displayValue}</Text>
+            <Text style={[styles.dieText]}>
+              {displayValue && Math.floor(displayValue)}
+            </Text>
           </View>
 
           <TouchableOpacity
