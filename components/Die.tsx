@@ -31,6 +31,7 @@ export default function Die(
   const [showEditModifierPane, setShowEditModifierPane] = useState(false);
   const [modifier, setModifier] = useState(props.modifier || 0);
   const [displayValue, setDisplayValue] = useState(props.currentValue);
+  const [isRolling, setIsRolling] = useState(false);
   const [rollOpacity, setRollOpacity] = useState(props.opacity);
 
   useEffect(() => {
@@ -38,12 +39,14 @@ export default function Die(
     doFunctionAtIntervalForTime(
       (timeEllapsed: number) => {
         setDisplayValue(Math.ceil(Math.random() * props.type));
+        setIsRolling(true);
         setRollOpacity(Math.random() + 0.3);
       },
       60,
       300,
       () => {
         setDisplayValue(props.currentValue);
+        setIsRolling(false);
         setRollOpacity(1);
       },
     );
@@ -138,7 +141,7 @@ export default function Die(
               styles[props.type],
               {opacity},
             ]}>
-            <SvgComponent />
+            <SvgComponent rolling={isRolling} />
           </View>
           <View
             style={[
@@ -221,13 +224,13 @@ const styles = StyleSheet.create({
     borderColor: Colors.mediumLight,
   },
   zeroModifier: {
-    backgroundColor: Colors.blue.lighter,
+    backgroundColor: Colors.zeroModifier,
   },
   positiveModifier: {
-    backgroundColor: Colors.green.lighter,
+    backgroundColor: Colors.posModifier,
   },
   negativeModifier: {
-    backgroundColor: Colors.red.lighter,
+    backgroundColor: Colors.negModifier,
   },
   modifierText: {
     fontSize: 13,
