@@ -38,7 +38,7 @@ const DiceView = ({
   }
   function reRollUnlockedInstructions() {
     setCurrentInstruction(
-      'Rerolls all unlocked dice. Press and hold on any rolled die to toggle die lock.',
+      'Rerolls all unlocked dice. Press and hold on any rolled die to toggle die lock. You can also shake your device to reroll.',
     );
   }
   function clearAllDiceInstructions() {

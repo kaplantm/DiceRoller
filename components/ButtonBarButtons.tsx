@@ -58,7 +58,7 @@ const ButtonBarButtons = ({
       </Button>
       <ValueDisplay
         onPress={instructionMode ? totalInstructions : undefined}
-        value={getTotal()}
+        value={Math.floor(getTotal())}
         label="TOTAL: "
       />
       <Button
