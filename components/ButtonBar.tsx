@@ -53,7 +53,9 @@ const ButtonBar = ({
 
 const styles = StyleSheet.create({
   buttonBar: {
-    margin: 10,
+    marginTop: 10,
+    marginRight: '5%',
+    marginLeft: '5%',
     marginBottom: 20,
     borderBottomColor: Colors.light,
     borderBottomWidth: 2,

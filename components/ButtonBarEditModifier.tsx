@@ -15,7 +15,7 @@ const ButtonBarEditModifier = ({
   modifier: number;
   setEditModifier: any;
   editModifier: boolean;
-  inDie: boolean;
+  inDie?: boolean;
 }) => {
   function toggleEditModifier() {
     setEditModifier(!editModifier);

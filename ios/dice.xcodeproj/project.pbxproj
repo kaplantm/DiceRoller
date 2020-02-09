@@ -360,6 +360,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.dn.dice.tk;
 				PRODUCT_NAME = dice;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -384,6 +385,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.dn.dice.tk;
 				PRODUCT_NAME = dice;
 				PROVISIONING_PROFILE_SPECIFIER = "Dice Roller Profile";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

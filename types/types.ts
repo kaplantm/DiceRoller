@@ -15,8 +15,16 @@ export interface iDie {
   onDoubleClick?: any;
   onLongPress?: any;
   index?: number;
-  size?: 'small' | 'medium' | 'large';
+  size?: size;
   opacity?: number;
   showLabel?: boolean;
   modifier?: number;
 }
+
+export type size =
+  | 'small_x1'
+  | 'medium_x1'
+  | 'large_x1'
+  | 'small_x2'
+  | 'medium_x2'
+  | 'large_x2';

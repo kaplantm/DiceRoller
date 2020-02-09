@@ -6,15 +6,13 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native';
-import {eDice, iDie} from '../types/types';
+import {eDice, iDie, size} from '../types/types';
 import {Assets} from '../assets';
 import Colors from '../theme/colors';
 import {textPositionMap} from '../constants/constants';
 import DieModifierEditor from './DieModifierEditor';
-import {
-  doFunctionAtIntervalForTime,
-  randomNumberInRange,
-} from '../shared/helpers';
+import {doFunctionAtIntervalForTime} from '../shared/helpers';
+import {Dimensions} from 'react-native';
 
 export default function Die(
   props: iDie & {
@@ -25,6 +23,7 @@ export default function Die(
     outsideTarget: boolean;
   },
 ) {
+  const screenWidth = Math.round(Dimensions.get('window').width);
   const [lastPressTime, setLastPressTime] = useState(0);
   const [timeOutState, setTimeoutState] = useState();
   const [showEditModifierPane, setShowEditModifierPane] = useState(false);
@@ -35,7 +34,7 @@ export default function Die(
 
   useEffect(() => {
     doFunctionAtIntervalForTime(
-      (timeEllapsed: number) => {
+      () => {
         setDisplayValue(Math.ceil(Math.random() * props.type));
         setIsRolling(true);
         setRollOpacity(Math.random() + 0.3);
@@ -48,7 +47,7 @@ export default function Die(
         setRollOpacity(1);
       },
     );
-  }, [props.currentValue]);
+  }, [props.currentValue, props.type]);
 
   useEffect(() => {
     if (props.outsideTarget) {
@@ -88,6 +87,13 @@ export default function Die(
     setLastPressTime(new Date().getTime());
   };
 
+  function getScaleClass(): size {
+    if (screenWidth < 600) {
+      return `${props.size || 'small'}_x1` as size;
+    }
+    return `${props.size || 'small'}_x2` as size;
+  }
+
   function toggleShowEditModifierPane() {
     props.setOutsideTargetFunc && props.setOutsideTargetFunc(true);
     setShowEditModifierPane(!showEditModifierPane);
@@ -126,27 +132,30 @@ export default function Die(
         onPress={onPress}>
         <View
           style={[
-            styles[props.size || 'small'],
+            styles[getScaleClass()],
             styles.dieContainer,
-            {opacity: rollOpacity},
+            // eslint-disable-next-line react-native/no-inline-styles
+            {opacity: rollOpacity, margin: screenWidth > 600 ? 10 : 0},
           ]}>
           <View
             style={[
               styles.die,
-              styles[props.size || 'small'],
+              styles[getScaleClass()],
               styles[props.type],
-              {opacity},
+              {
+                opacity,
+              },
             ]}>
             <SvgComponent rolling={isRolling} />
           </View>
           <View
             style={[
               styles.dieTextContainer,
-              styles[props.size || 'small'],
+              styles[getScaleClass()],
               styles[props.type],
               {
-                ...textPositionMap[props.type].small,
-                ...textPositionMap[props.type][props.size || 'small'],
+                ...textPositionMap[props.type].small_x1,
+                ...textPositionMap[props.type][getScaleClass()],
               },
             ]}>
             <Text style={[styles.dieText]}>
@@ -259,9 +268,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  small: {height: 100, width: 100},
-  medium: {height: 120, width: 120},
-  large: {height: 140, width: 140},
+  small_x1: {height: 100, width: 100},
+  medium_x1: {height: 120, width: 120},
+  large_x1: {height: 140, width: 140},
+  small_x2: {height: 180, width: 180},
+  medium_x2: {height: 220, width: 220},
+  large_x2: {height: 260, width: 260},
   locked: {opacity: 0.5},
   [eDice.TWENTY]: {},
   [eDice.TWELVE]: {},
