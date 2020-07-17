@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import {eDice, iDie, size} from '../types/types';
 import {Assets} from '../assets';
-import Colors from '../theme/colors';
 import {textPositionMap} from '../constants/constants';
 import DieModifierEditor from './DieModifierEditor';
 import {doFunctionAtIntervalForTime} from '../shared/helpers';
 import {Dimensions} from 'react-native';
+import {AppConsumer} from './ThemeProvider';
 
 export default function Die(
   props: iDie & {
@@ -120,81 +120,99 @@ export default function Die(
   const DieContainerComponentProps = props.onLongPress
     ? {
         activeOpacity: 1,
-        underlayColor: 'hsla(178, 0%, 100%, .8)',
+        underlayColor: 'transparent',
         onLongPress: handleLongPress,
       }
     : {};
   return (
-    <>
-      <DieContainerComponent
-        {...DieContainerComponentProps}
-        style={[styles.highlight]}
-        onPress={onPress}>
-        <View
-          style={[
-            styles[getScaleClass()],
-            styles.dieContainer,
-            // eslint-disable-next-line react-native/no-inline-styles
-            {opacity: rollOpacity, margin: screenWidth > 600 ? 10 : 0},
-          ]}>
-          <View
-            style={[
-              styles.die,
-              styles[getScaleClass()],
-              styles[props.type],
-              {
-                opacity,
-              },
-            ]}>
-            <SvgComponent rolling={isRolling} />
-          </View>
-          <View
-            style={[
-              styles.dieTextContainer,
-              styles[getScaleClass()],
-              styles[props.type],
-              {
-                ...textPositionMap[props.type].small_x1,
-                ...textPositionMap[props.type][getScaleClass()],
-              },
-            ]}>
-            <Text style={[styles.dieText]}>
-              {displayValue && Math.floor(displayValue)}
-            </Text>
-          </View>
+    <AppConsumer>
+      {appConsumer => (
+        <>
+          <DieContainerComponent
+            {...DieContainerComponentProps}
+            style={[styles.highlight]}
+            onPress={onPress}>
+            <View
+              style={[
+                styles[getScaleClass()],
+                styles.dieContainer,
+                // eslint-disable-next-line react-native/no-inline-styles
+                {opacity: rollOpacity, margin: screenWidth > 600 ? 10 : 0},
+              ]}>
+              <View
+                style={[
+                  styles.die,
+                  styles[getScaleClass()],
+                  styles[props.type],
+                  {
+                    opacity,
+                  },
+                ]}>
+                <SvgComponent rolling={isRolling} />
+              </View>
+              <View
+                style={[
+                  styles.dieTextContainer,
+                  styles[getScaleClass()],
+                  styles[props.type],
+                  {
+                    ...textPositionMap[props.type].small_x1,
+                    ...textPositionMap[props.type][getScaleClass()],
+                  },
+                ]}>
+                <Text
+                  style={[styles.dieText, {color: appConsumer.palette.white}]}>
+                  {displayValue && Math.floor(displayValue)}
+                </Text>
+              </View>
 
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={[
-              styles.modifierContainer,
-              modifier && modifier >= 0
-                ? styles.positiveModifier
-                : modifier === 0
-                ? styles.zeroModifier
-                : styles.negativeModifier,
-            ]}
-            onPress={
-              props.instructionMode
-                ? props.setModifierInstructions
-                : toggleShowEditModifierPane
-            }>
-            <Text style={[styles.modifierText]}>{modifier || 0}</Text>
-          </TouchableOpacity>
-        </View>
-      </DieContainerComponent>
-      {showEditModifierPane && !props.outsideTarget && (
-        <DieModifierEditor
-          setModifier={
-            props.instructionMode
-              ? props.setModifierInstructions
-              : updateModifier
-          }
-          modifier={modifier}
-          setEditModifier={setShowEditModifierPane}
-          editModifier={showEditModifierPane}
-        />
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={[
+                  styles.modifierContainer,
+                  modifier && modifier >= 0
+                    ? {backgroundColor: appConsumer.palette.posModifier}
+                    : modifier === 0
+                    ? {
+                        backgroundColor: appConsumer.palette.zeroModifier,
+                      }
+                    : {backgroundColor: appConsumer.palette.negModifier},
+                  {
+                    borderColor: appConsumer.palette.mediumLight,
+                  },
+                ]}
+                onPress={
+                  props.instructionMode
+                    ? props.setModifierInstructions
+                    : toggleShowEditModifierPane
+                }>
+                <Text
+                  style={[
+                    styles.modifierText,
+                    {
+                      color: appConsumer.palette.light,
+                    },
+                  ]}>
+                  {modifier || 0}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </DieContainerComponent>
+          {showEditModifierPane && !props.outsideTarget && (
+            <DieModifierEditor
+              setModifier={
+                props.instructionMode
+                  ? props.setModifierInstructions
+                  : updateModifier
+              }
+              modifier={modifier}
+              setEditModifier={setShowEditModifierPane}
+              editModifier={showEditModifierPane}
+            />
+          )}
+        </>
       )}
-    </>
+    </AppConsumer>
   );
 }
 
@@ -204,7 +222,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   die: {
-    // backgroundColor: 'red',
     padding: 8,
     position: 'absolute',
     top: 0,
@@ -213,7 +230,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dieTextContainer: {
-    // backgroundColor: 'orange',
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
@@ -228,26 +244,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: Colors.mediumLight,
-  },
-  zeroModifier: {
-    backgroundColor: Colors.zeroModifier,
-  },
-  positiveModifier: {
-    backgroundColor: Colors.posModifier,
-  },
-  negativeModifier: {
-    backgroundColor: Colors.negModifier,
   },
   modifierText: {
     fontSize: 13,
-    color: Colors.light,
     fontWeight: '800',
   },
   dieText: {
     fontSize: 20,
     fontWeight: '800',
-    color: Colors.white,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

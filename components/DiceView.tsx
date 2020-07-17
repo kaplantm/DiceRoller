@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, ScrollView, View, Vibration} from 'react-native';
-import Colors from '../theme/colors';
+import RNShake from 'react-native-shake';
 import DiceBar from '../components/DiceBar';
 import Die from '../components/Die';
 import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
 import globalStyles from '../theme/globalStyle';
-import RNShake from 'react-native-shake';
+import {AppConsumer} from './ThemeProvider';
 
 const DiceView = ({
   setInstructionMode,
@@ -151,50 +151,74 @@ const DiceView = ({
   };
 
   return (
-    <>
-      <View style={styles.scrollViewWrapper}>
-        <ScrollView
-          // @ts-ignore
-          ref={ref => (this.scrollView = ref)}
-          onContentSizeChange={() => {
-            // @ts-ignore
-            this.scrollView.scrollToEnd({animated: true});
-          }}>
+    <AppConsumer>
+      {appConsumer => (
+        <>
           <View
-            style={[styles.scrollView, activeDice.length < 2 && styles.center]}>
-            {renderActiveDice()}
-          </View>
-        </ScrollView>
+            style={[
+              styles.scrollViewWrapper,
+              {
+                backgroundColor: appConsumer.palette.light,
+              },
+            ]}>
+            <ScrollView
+              // @ts-ignore
+              ref={ref => (this.scrollView = ref)}
+              onContentSizeChange={() => {
+                // @ts-ignore
+                this.scrollView.scrollToEnd({animated: true});
+              }}>
+              <View
+                style={[
+                  styles.scrollView,
+                  activeDice.length < 2 && styles.center,
+                ]}>
+                {renderActiveDice()}
+              </View>
+            </ScrollView>
 
-        <View style={[globalStyles.topShadow, styles.bottomScrollShadow]} />
-      </View>
-      <ButtonBar
-        instructionMode={instructionMode}
-        setCurrentInstruction={setCurrentInstruction}
-        setShowingInstructions={setInstructionMode}
-        reRollUnlocked={
-          instructionMode ? reRollUnlockedInstructions : reRollUnlocked
-        }
-        clearAllDice={instructionMode ? clearAllDiceInstructions : clearAllDice}
-        setModifier={setModifier}
-        modifier={modifier}
-        getTotal={getTotal}
-      />
-      <DiceBar
-        instructionMode={instructionMode}
-        setCurrentInstruction={setCurrentInstruction}
-        onDieClick={instructionMode ? addActiveDieInstructions : addActiveDie}
-        setOutsideTargetFunc={setOutsideTargetFunc}
-        outsideTarget={outsideTarget}
-      />
-    </>
+            <View
+              style={[
+                globalStyles.topShadow,
+                styles.bottomScrollShadow,
+                {
+                  shadowColor: appConsumer.palette.light,
+                },
+              ]}
+            />
+          </View>
+          <ButtonBar
+            instructionMode={instructionMode}
+            setCurrentInstruction={setCurrentInstruction}
+            setShowingInstructions={setInstructionMode}
+            reRollUnlocked={
+              instructionMode ? reRollUnlockedInstructions : reRollUnlocked
+            }
+            clearAllDice={
+              instructionMode ? clearAllDiceInstructions : clearAllDice
+            }
+            setModifier={setModifier}
+            modifier={modifier}
+            getTotal={getTotal}
+          />
+          <DiceBar
+            instructionMode={instructionMode}
+            setCurrentInstruction={setCurrentInstruction}
+            onDieClick={
+              instructionMode ? addActiveDieInstructions : addActiveDie
+            }
+            setOutsideTargetFunc={setOutsideTargetFunc}
+            outsideTarget={outsideTarget}
+          />
+        </>
+      )}
+    </AppConsumer>
   );
 };
 
 const styles = StyleSheet.create({
   scrollViewWrapper: {
     flex: 1,
-    backgroundColor: Colors.light,
   },
   scrollView: {
     padding: 10,
@@ -210,15 +234,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomScrollShadow: {
-    shadowColor: Colors.light,
     height: 10,
   },
   dieContainer: {
-    // backgroundColor: 'orange',
     alignItems: 'center',
-    // flexBasis: '10%',
-    // width: '10%',
-    // flexGrow: 0,
   },
 });
 

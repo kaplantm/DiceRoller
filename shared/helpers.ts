@@ -32,9 +32,9 @@ export function randomNumberInRange(
   return Math.floor(rand * (max + 1 - min) + min);
 }
 
-export function getRandomShade() {
+export function getRandomShade(colorSet: any) {
   const randomIndex: number = Math.floor(Math.random() * shadeKeysLength);
   const randomEnumKey: EColorShade = shadeKeys[randomIndex] as any;
   // @ts-ignore
-  return blueGreyGroup[EColorShade[randomEnumKey]];
+  return colorSet[EColorShade[randomEnumKey]];
 }

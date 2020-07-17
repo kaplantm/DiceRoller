@@ -8,19 +8,11 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Text,
-  View,
-  PanResponder,
-  PanResponderStatic,
-} from 'react-native';
-import Colors from './theme/colors';
-import {iDie} from './types/types';
+import React, {useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, View, PanResponder} from 'react-native';
 import DiceView from './components/DiceView';
+import Settings from './components/Settings';
+import {AppContextProvider, AppConsumer} from './components/ThemeProvider';
 
 const App = () => {
   const [instructionMode, setInstructionMode] = useState<boolean>(false);
@@ -51,52 +43,94 @@ const App = () => {
     setOutsideTarget(false);
   };
 
+  // TODO: clock/battery stuff to white
+  // TODO: detect dark mode, use dark if no other theme set
+  // TODO: play sound 1) when shaken, 2) when reroll is pressed, when die is pressed(rolled)
   return (
-    <View
-      style={styles.appContainer}
-      {...(panResponder ? panResponder.panHandlers : {})}>
-      <SafeAreaView
-        style={styles.appContainer}
-        {...(panResponder ? panResponder.panHandlers : {})}>
-        {instructionMode && (
-          <View style={styles.instructionContainer}>
-            <Text style={styles.instructionContainerText}>
-              {currentInstruction}
-            </Text>
+    <AppContextProvider>
+      <AppConsumer>
+        {appConsumer => (
+          <View
+            style={[
+              styles.appContainer,
+              {
+                backgroundColor: appConsumer.palette.light,
+              },
+            ]}
+            {...(panResponder ? panResponder.panHandlers : {})}>
+            <SafeAreaView
+              style={[styles.top, {backgroundColor: appConsumer.palette.dark}]}
+            />
+            <SafeAreaView
+              style={styles.appContainer}
+              {...(panResponder ? panResponder.panHandlers : {})}>
+              <Settings />
+              <View
+                style={[
+                  styles.settingsContainer,
+                  {
+                    backgroundColor: appConsumer.palette.dark,
+                  },
+                ]}>
+                <Text
+                  style={[
+                    styles.instructionContainerText,
+                    {
+                      color: appConsumer.palette.light,
+                    },
+                  ]}>
+                  {currentInstruction}
+                </Text>
+              </View>
+              {instructionMode && (
+                <View
+                  style={[
+                    styles.instructionContainer,
+                    {
+                      backgroundColor: appConsumer.palette.dark,
+                    },
+                  ]}>
+                  <Text style={styles.instructionContainerText}>
+                    {currentInstruction}
+                  </Text>
+                </View>
+              )}
+              <DiceView
+                setInstructionMode={setInstructionMode}
+                instructionMode={instructionMode}
+                setCurrentInstruction={setCurrentInstruction}
+                setOutsideTargetFunc={setOutsideTargetFunc}
+                outsideTarget={outsideTarget}
+              />
+            </SafeAreaView>
           </View>
         )}
-        <DiceView
-          setInstructionMode={setInstructionMode}
-          instructionMode={instructionMode}
-          setCurrentInstruction={setCurrentInstruction}
-          setOutsideTargetFunc={setOutsideTargetFunc}
-          outsideTarget={outsideTarget}
-        />
-      </SafeAreaView>
-    </View>
+      </AppConsumer>
+    </AppContextProvider>
   );
 };
 
 const styles = StyleSheet.create({
+  top: {
+    flex: 0,
+  },
   appContainer: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: Colors.light,
+  },
+  settingsContainer: {
+    padding: 10,
+    minHeight: 80,
+    justifyContent: 'center',
   },
   instructionContainer: {
-    backgroundColor: Colors.dark,
     padding: 10,
     minHeight: 80,
     justifyContent: 'center',
   },
   instructionContainerText: {
-    color: Colors.light,
     fontSize: 15,
     fontWeight: '600',
-  },
-  scrollViewWrapper: {
-    flex: 1,
-    backgroundColor: Colors.light,
   },
   scrollView: {
     padding: 10,

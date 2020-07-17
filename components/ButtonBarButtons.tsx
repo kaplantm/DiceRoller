@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Colors from '../theme/colors';
 import Button from './Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ValueDisplay from './ValueDisplay';
+import {AppConsumer} from './ThemeProvider';
 
 const ButtonBarButtons = ({
   setCurrentInstruction,
@@ -49,47 +49,52 @@ const ButtonBarButtons = ({
   }
 
   return (
-    <>
-      <Button onPress={toggleInstructions} neumorphism={false}>
-        <Icon name="help-outline" size={30} color={Colors.dark} />
-      </Button>
-      <Button onPress={reRollUnlocked}>
-        <Icon name="refresh" size={30} color={Colors.blue.main} />
-      </Button>
-      <ValueDisplay
-        onPress={instructionMode ? totalInstructions : undefined}
-        value={Math.floor(getTotal())}
-        label="TOTAL: "
-      />
-      <Button
-        onPress={
-          instructionMode ? toggleEditModifierInstructions : toggleEditModifier
-        }>
-        <View style={styles.modifier}>
-          <Text style={styles.text}>{modifierDisplay}</Text>
-        </View>
-      </Button>
-      <Button onPress={clearAllDice}>
-        <Icon name="clear" size={30} color={Colors.blue.main} />
-      </Button>
-    </>
+    <AppConsumer>
+      {appConsumer => (
+        <>
+          <Button onPress={toggleInstructions} neumorphism={false}>
+            <Icon
+              name="help-outline"
+              size={30}
+              color={appConsumer.palette.dark}
+            />
+          </Button>
+          <Button onPress={reRollUnlocked}>
+            <Icon name="refresh" size={30} color={appConsumer.palette.dark} />
+          </Button>
+          <ValueDisplay
+            onPress={instructionMode ? totalInstructions : undefined}
+            value={Math.floor(getTotal())}
+            label="TOTAL: "
+          />
+          <Button
+            onPress={
+              instructionMode
+                ? toggleEditModifierInstructions
+                : toggleEditModifier
+            }>
+            <View style={[styles.modifier]}>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    color: appConsumer.palette.dark,
+                  },
+                ]}>
+                {modifierDisplay}
+              </Text>
+            </View>
+          </Button>
+          <Button onPress={clearAllDice}>
+            <Icon name="clear" size={30} color={appConsumer.palette.dark} />
+          </Button>
+        </>
+      )}
+    </AppConsumer>
   );
 };
 
 const styles = StyleSheet.create({
-  total: {
-    borderRadius: 5,
-    backgroundColor: Colors.lighter,
-    flexDirection: 'row',
-    flex: 1,
-  },
-  totalInner: {
-    backgroundColor: Colors.lighter,
-    borderRadius: 5,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   modifier: {
     borderRadius: 5,
     padding: 3,
@@ -101,9 +106,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.blue.main,
   },
-
   marginRightTen: {
     marginRight: 10,
   },

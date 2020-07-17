@@ -1,7 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Button from './Button';
+import {StyleSheet, View} from 'react-native';
 import ButtonBarEditModifier from './ButtonBarEditModifier';
 
 export default function DieModifierEditor({

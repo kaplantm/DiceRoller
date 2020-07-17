@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import Colors from '../theme/colors';
 import Die from './Die';
 import {DICE_TYPES} from '../constants/constants';
 import globalStyles from '../theme/globalStyle';
+import {AppConsumer} from './ThemeProvider';
 
 const DiceBar = ({
   onDieClick,
@@ -43,25 +43,33 @@ const DiceBar = ({
     ));
   }
   return (
-    <View style={[globalStyles.topShadow]}>
-      <View style={[globalStyles.bottomShadow, styles.staticDiceContainer]}>
-        {renderOneOfEachDice()}
-      </View>
-    </View>
+    <AppConsumer>
+      {appConsumer => (
+        <View style={[!appConsumer.isDarkTheme && globalStyles.topShadow]}>
+          <View
+            style={[
+              !appConsumer.isDarkTheme && globalStyles.bottomShadow,
+              styles.staticDiceContainer,
+              {
+                backgroundColor: appConsumer.palette.mediumLight,
+              },
+            ]}>
+            {renderOneOfEachDice()}
+          </View>
+        </View>
+      )}
+    </AppConsumer>
   );
 };
 
-// <View style={[styles.dieContainerShadow, globalStyles.bottomShadow]} />
 const styles = StyleSheet.create({
   staticDiceContainer: {
-    backgroundColor: Colors.mediumLight,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   dieContainer: {
-    // backgroundColor: Colors.lighter,
     alignItems: 'center',
     flex: 1,
     flexBasis: '33%',

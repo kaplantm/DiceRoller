@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Colors from '../theme/colors';
 import globalStyles from '../theme/globalStyle';
+import {AppConsumer} from './ThemeProvider';
 
 const Button = ({
   children,
@@ -15,28 +15,38 @@ const Button = ({
   neumorphism?: boolean;
 }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.touchableOpacity, style]}>
-      <View
-        style={[styles.buttonContainer, neumorphism && globalStyles.topShadow]}>
-        <View
-          style={[
-            styles.buttonContainerShadow,
-            neumorphism && globalStyles.bottomShadow,
-          ]}>
-          {children}
-        </View>
-      </View>
-    </TouchableOpacity>
+    <AppConsumer>
+      {appConsumer => (
+        <TouchableOpacity onPress={onPress} style={[style]}>
+          <View
+            style={[
+              styles.buttonContainer,
+              neumorphism &&
+                !appConsumer.isDarkTheme && {
+                  backgroundColor: appConsumer.palette.light,
+                  ...globalStyles.topShadow,
+                },
+            ]}>
+            <View
+              style={[
+                styles.buttonContainerShadow,
+                neumorphism && !appConsumer.isDarkTheme
+                  ? {
+                      backgroundColor: appConsumer.palette.light,
+                      ...globalStyles.bottomShadow,
+                    }
+                  : {backgroundColor: appConsumer.palette.lighter},
+              ]}>
+              {children}
+            </View>
+          </View>
+        </TouchableOpacity>
+      )}
+    </AppConsumer>
   );
 };
 
 const styles = StyleSheet.create({
-  touchableOpacity: {
-    // backgroundColor: 'green',
-    // flexGrow: 1,
-  },
   buttonContainer: {
     borderRadius: 5,
   },
@@ -46,10 +56,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  textStyle: {
-    fontWeight: '800',
-    color: Colors.white,
   },
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import Colors from '../theme/colors';
 import globalStyles from '../theme/globalStyle';
+import {AppConsumer} from './ThemeProvider';
 
 const ValueDisplay = ({
   label,
@@ -17,18 +17,45 @@ const ValueDisplay = ({
   const signedValue = value >= 0 ? `+ ${value}` : `- ${Math.abs(value)}`;
 
   return (
-    <View
-      onTouchEnd={onPress}
-      style={[globalStyles.topShadow, styles.valueContainer]}>
-      <View style={[globalStyles.bottomShadow, styles.valueInner]}>
-        {label && <Text style={[styles.label]}>{label}</Text>}
-        <View style={[styles.value]}>
-          <Text style={styles.text}>
-            {useSignedValue ? signedValue : value}
-          </Text>
+    <AppConsumer>
+      {appConsumer => (
+        <View
+          onTouchEnd={onPress}
+          style={[
+            !appConsumer.isDarkTheme && globalStyles.topShadow,
+            styles.valueContainer,
+            {
+              backgroundColor: appConsumer.palette.lighter,
+            },
+          ]}>
+          <View
+            style={[
+              !appConsumer.isDarkTheme && globalStyles.bottomShadow,
+              styles.valueInner,
+              {
+                backgroundColor: appConsumer.palette.lighter,
+              },
+            ]}>
+            {label && (
+              <Text style={[styles.label, {color: appConsumer.palette.darker}]}>
+                {label}
+              </Text>
+            )}
+            <View style={[styles.value]}>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    color: appConsumer.palette.dark,
+                  },
+                ]}>
+                {useSignedValue ? signedValue : value}
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      )}
+    </AppConsumer>
   );
 };
 
@@ -36,13 +63,11 @@ const styles = StyleSheet.create({
   valueContainer: {
     height: 30,
     borderRadius: 5,
-    backgroundColor: Colors.lighter,
     flexDirection: 'row',
     flex: 1,
     maxWidth: 150,
   },
   valueInner: {
-    backgroundColor: Colors.lighter,
     borderRadius: 5,
     flex: 1,
     padding: 3,
@@ -62,7 +87,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.blue.main,
   },
 });
 

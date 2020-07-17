@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import Colors from '../theme/colors';
 import ButtonBarButtons from './ButtonBarButtons';
 import ButtonBarEditModifier from './ButtonBarEditModifier';
 
@@ -26,7 +25,7 @@ const ButtonBar = ({
   const [editModifier, setEditModifier] = useState<boolean>(false);
 
   return (
-    <View style={styles.buttonBar}>
+    <View style={[styles.buttonBar]}>
       {editModifier ? (
         <ButtonBarEditModifier
           setEditModifier={setEditModifier}
@@ -57,8 +56,6 @@ const styles = StyleSheet.create({
     marginRight: '5%',
     marginLeft: '5%',
     marginBottom: 20,
-    borderBottomColor: Colors.light,
-    borderBottomWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
