@@ -6,6 +6,7 @@ import D10 from './svgs/D10';
 import D12 from './svgs/D12';
 import D20 from './svgs/D20';
 
+// TODO: multiple exports
 export const Assets = {
   svgComponents: {
     [eDice.FOUR]: D4,

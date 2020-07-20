@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {StyleSheet, ScrollView, View, Vibration} from 'react-native';
 import RNShake from 'react-native-shake';
 import DiceBar from '../components/DiceBar';
 import Die from '../components/Die';
 import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
-import globalStyles from '../theme/globalStyle';
-import {AppConsumer} from './ThemeProvider';
+import {AppConsumer, AppContext} from './ThemeProvider';
+import {appSounds, eSounds, playSound} from '../shared/sounds';
 
 const DiceView = ({
   setInstructionMode,
@@ -23,6 +23,7 @@ const DiceView = ({
 }) => {
   const [activeDice, setActiveDice] = useState<iDie[]>([]);
   const [modifier, setModifier] = useState<number>(0);
+  const context = useContext(AppContext);
 
   useEffect(() => {
     RNShake.addEventListener('ShakeEvent', () => {
@@ -104,6 +105,10 @@ const DiceView = ({
   }
 
   function reRollUnlocked() {
+    if (activeDice && activeDice.length) {
+      // TODO: error sound
+      playSound(context.sound);
+    }
     setActiveDice(
       activeDice.map((die: iDie) => {
         if (!die.locked) {
@@ -120,15 +125,20 @@ const DiceView = ({
 
   function getTotal() {
     const reducer = (accumulator: number, currentDie: iDie) =>
-      accumulator + (currentDie.currentValue || 0) + (currentDie.modifier || 0);
-    return activeDice.reduce(reducer, 0) + modifier;
+      accumulator +
+      (currentDie.currentValue || 0) +
+      (context.showModifers ? currentDie.modifier || 0 : 0);
+    return (
+      activeDice.reduce(reducer, 0) + (context.showModifers ? modifier : 0)
+    );
   }
 
   function clearAllDice() {
     setActiveDice([]);
   }
 
-  const addActiveDie = (newDie: iDie) => {
+  const addActiveDie = (sound: eSounds) => (newDie: iDie) => {
+    playSound(sound);
     setActiveDice([...activeDice, newDie]);
   };
 
@@ -179,7 +189,6 @@ const DiceView = ({
 
             <View
               style={[
-                globalStyles.topShadow,
                 styles.bottomScrollShadow,
                 {
                   shadowColor: appConsumer.palette.light,
@@ -188,6 +197,7 @@ const DiceView = ({
             />
           </View>
           <ButtonBar
+            showModifiers={appConsumer.showModifers}
             instructionMode={instructionMode}
             setCurrentInstruction={setCurrentInstruction}
             setShowingInstructions={setInstructionMode}
@@ -205,7 +215,9 @@ const DiceView = ({
             instructionMode={instructionMode}
             setCurrentInstruction={setCurrentInstruction}
             onDieClick={
-              instructionMode ? addActiveDieInstructions : addActiveDie
+              instructionMode
+                ? addActiveDieInstructions
+                : addActiveDie(appConsumer.sound)
             }
             setOutsideTargetFunc={setOutsideTargetFunc}
             outsideTarget={outsideTarget}

@@ -67,24 +67,27 @@ const ButtonBarButtons = ({
             value={Math.floor(getTotal())}
             label="TOTAL: "
           />
-          <Button
-            onPress={
-              instructionMode
-                ? toggleEditModifierInstructions
-                : toggleEditModifier
-            }>
-            <View style={[styles.modifier]}>
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    color: appConsumer.palette.dark,
-                  },
-                ]}>
-                {modifierDisplay}
-              </Text>
-            </View>
-          </Button>
+
+          {appConsumer.showModifers && (
+            <Button
+              onPress={
+                instructionMode
+                  ? toggleEditModifierInstructions
+                  : toggleEditModifier
+              }>
+              <View style={[styles.modifier]}>
+                <Text
+                  style={[
+                    styles.text,
+                    {
+                      color: appConsumer.palette.dark,
+                    },
+                  ]}>
+                  {modifierDisplay}
+                </Text>
+              </View>
+            </Button>
+          )}
           <Button onPress={clearAllDice}>
             <Icon name="clear" size={30} color={appConsumer.palette.dark} />
           </Button>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import globalStyles from '../theme/globalStyle';
 import {AppConsumer} from './ThemeProvider';
 
 const ValueDisplay = ({
@@ -22,7 +21,6 @@ const ValueDisplay = ({
         <View
           onTouchEnd={onPress}
           style={[
-            !appConsumer.isDarkTheme && globalStyles.topShadow,
             styles.valueContainer,
             {
               backgroundColor: appConsumer.palette.lighter,
@@ -30,7 +28,6 @@ const ValueDisplay = ({
           ]}>
           <View
             style={[
-              !appConsumer.isDarkTheme && globalStyles.bottomShadow,
               styles.valueInner,
               {
                 backgroundColor: appConsumer.palette.lighter,

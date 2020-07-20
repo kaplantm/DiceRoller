@@ -166,9 +166,11 @@ export const colorThemes: {[key: string]: ITheme} = {
   },
   [EColorTheme.DARK]: {
     ...sharedColors,
-    zeroModifier: 'hsla(200, 55%, 57%, 1)',
+    negModifier: 'hsla(0, 40%, 55%, 1)',
+    posModifier: 'hsla(100, 30%, 40%, 1)',
+    zeroModifier: 'hsla(200, 27%, 57%, 1)',
     darker: 'hsla(200, 66%, 80%, 1)',
-    dark: 'hsla(200, 66%, 47%, 1)',
+    dark: 'hsla(200, 79%, 31%, 1)',
     mediumDark: 'hsla(200, 66%, 47%, 1)',
     medium: 'hsla(200, 66%, 47%, 1)',
     mediumLight: 'hsla(207, 42%, 15%, 1)',

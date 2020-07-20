@@ -1,16 +1,30 @@
-import React from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {AppConsumer} from './ThemeProvider';
 import {EColorTheme, colorThemesArray} from '../theme/colors';
+import {appSounds, appSoundsArray, eSounds, playSound} from '../shared/sounds';
+import Sound from 'react-native-sound';
+
+const buttonSize = 30;
+const modifierSize = 15;
 
 function getNextTheme(currentTheme = EColorTheme.BLUE) {
   const currentIndex = colorThemesArray.indexOf(currentTheme);
 
-  console.log({currentTheme, currentIndex}, colorThemesArray[0]);
   if (currentIndex === -1) {
     return colorThemesArray[0];
   }
   return colorThemesArray[(currentIndex + 1) % colorThemesArray.length];
+}
+
+function getNextSound(currentSound = eSounds.MUTE) {
+  const currentIndex = appSoundsArray.indexOf(currentSound);
+
+  if (currentIndex === -1) {
+    return appSoundsArray[0];
+  }
+  return appSoundsArray[(currentIndex + 1) % appSoundsArray.length];
 }
 
 // TODO: collaspble settings icon
@@ -26,45 +40,94 @@ const Settings = () => {
               backgroundColor: appConsumer.palette.dark,
             },
           ]}>
-          <TouchableOpacity
-            onPress={() => {
-              appConsumer.updateTheme(getNextTheme(appConsumer.theme));
-            }}
+          <Text
             style={[
+              styles.title,
               {
-                backgroundColor: appConsumer.palette.colorSet.main,
-                borderColor: appConsumer.palette.light,
+                color: appConsumer.isDarkTheme
+                  ? appConsumer.palette.darker
+                  : appConsumer.palette.light,
               },
-              styles.buttonStyle,
             ]}>
-            <View
+            DndDice
+          </Text>
+          <View style={styles.group}>
+            <TouchableOpacity
+              onPress={() => {
+                appConsumer.updateTheme(getNextTheme(appConsumer.theme));
+              }}
               style={[
-                styles.splitDown,
                 {
-                  borderBottomColor: appConsumer.palette.light,
+                  backgroundColor: appConsumer.palette.colorSet.main,
+                  borderColor: appConsumer.palette.light,
                 },
-              ]}
-            />
-            <View
+                styles.buttonStyle,
+              ]}>
+              <View
+                style={[
+                  styles.splitDown,
+                  {
+                    borderBottomColor: appConsumer.palette.light,
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.splitBorder,
+                  {borderColor: appConsumer.palette.light},
+                ]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={appConsumer.toggleShowModifers}
               style={[
-                styles.splitBorder,
-                {borderColor: appConsumer.palette.light},
-              ]}
-            />
-          </TouchableOpacity>
+                {
+                  backgroundColor: appConsumer.palette.colorSet.main,
+                  borderColor: appConsumer.palette.mediumLight,
+                },
+                styles.buttonStyle,
+                styles.modButton,
+              ]}>
+              {appConsumer.showModifers && (
+                <View
+                  style={[
+                    styles.circle,
+                    {
+                      backgroundColor: appConsumer.palette.zeroModifier,
+                      borderColor: appConsumer.palette.light,
+                    },
+                  ]}
+                />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonStyle}>
+              <Icon
+                onPress={() => {
+                  const newSound = getNextSound(appConsumer.sound);
+                  appConsumer.updateSound(newSound);
+                  playSound(newSound);
+                }}
+                name={appConsumer.sound}
+                size={buttonSize}
+                color={appConsumer.palette.light}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </AppConsumer>
   );
 };
 
-const buttonSize = 40;
-
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
+  group: {
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  container: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flexDirection: 'row',
   },
   splitDown: {
@@ -77,20 +140,32 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderLeftColor: 'transparent',
   },
+  circle: {
+    position: 'absolute',
+    width: modifierSize,
+    height: modifierSize,
+    bottom: -modifierSize / 2,
+    right: -modifierSize / 2,
+    borderRadius: modifierSize,
+    borderWidth: 2,
+  },
+  title: {
+    paddingLeft: 15,
+    fontWeight: '600',
+    letterSpacing: 2,
+    fontSize: 20,
+  },
   buttonStyle: {
     position: 'relative',
     overflow: 'hidden',
     width: buttonSize,
     height: buttonSize,
     margin: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 4,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 2.62,
-    elevation: 4,
+  },
+  modButton: {
+    overflow: 'visible',
+    borderWidth: 3,
+    borderRadius: 3,
   },
   splitBorder: {
     position: 'absolute',

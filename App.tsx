@@ -19,7 +19,7 @@ const App = () => {
 
   const [outsideTarget, setOutsideTarget] = useState<boolean>(true);
   const [currentInstruction, setCurrentInstruction] = useState<string>(
-    'Click any element on screen to learn more.',
+    'Click any element below to learn more.',
   );
 
   const panResponder = React.useMemo(
@@ -45,7 +45,10 @@ const App = () => {
 
   // TODO: clock/battery stuff to white
   // TODO: detect dark mode, use dark if no other theme set
-  // TODO: play sound 1) when shaken, 2) when reroll is pressed, when die is pressed(rolled)
+  // TODO: trim audio clips to start sooner
+  // TODO: add settings stuff to instructions
+  // TODO: local story for settings
+
   return (
     <AppContextProvider>
       <AppConsumer>
@@ -65,23 +68,6 @@ const App = () => {
               style={styles.appContainer}
               {...(panResponder ? panResponder.panHandlers : {})}>
               <Settings />
-              <View
-                style={[
-                  styles.settingsContainer,
-                  {
-                    backgroundColor: appConsumer.palette.dark,
-                  },
-                ]}>
-                <Text
-                  style={[
-                    styles.instructionContainerText,
-                    {
-                      color: appConsumer.palette.light,
-                    },
-                  ]}>
-                  {currentInstruction}
-                </Text>
-              </View>
               {instructionMode && (
                 <View
                   style={[
@@ -90,7 +76,11 @@ const App = () => {
                       backgroundColor: appConsumer.palette.dark,
                     },
                   ]}>
-                  <Text style={styles.instructionContainerText}>
+                  <Text
+                    style={[
+                      styles.instructionContainerText,
+                      {color: appConsumer.palette.light},
+                    ]}>
                     {currentInstruction}
                   </Text>
                 </View>
@@ -124,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   instructionContainer: {
+    marginTop: 20,
     padding: 10,
     minHeight: 80,
     justifyContent: 'center',

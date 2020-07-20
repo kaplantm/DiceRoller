@@ -1,13 +1,12 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import globalStyles from '../theme/globalStyle';
 import {AppConsumer} from './ThemeProvider';
 
 const Button = ({
   children,
   onPress,
   style = {},
-  neumorphism = true,
+  neumorphism = true, // TODO: remove
 }: {
   children: any;
   onPress?: any;
@@ -21,19 +20,16 @@ const Button = ({
           <View
             style={[
               styles.buttonContainer,
-              neumorphism &&
-                !appConsumer.isDarkTheme && {
-                  backgroundColor: appConsumer.palette.light,
-                  ...globalStyles.topShadow,
-                },
+              !appConsumer.isDarkTheme && {
+                backgroundColor: appConsumer.palette.light,
+              },
             ]}>
             <View
               style={[
                 styles.buttonContainerShadow,
-                neumorphism && !appConsumer.isDarkTheme
+                !appConsumer.isDarkTheme
                   ? {
                       backgroundColor: appConsumer.palette.light,
-                      ...globalStyles.bottomShadow,
                     }
                   : {backgroundColor: appConsumer.palette.lighter},
               ]}>

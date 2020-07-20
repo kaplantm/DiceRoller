@@ -166,36 +166,38 @@ export default function Die(
                 </Text>
               </View>
 
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={[
-                  styles.modifierContainer,
-                  modifier && modifier >= 0
-                    ? {backgroundColor: appConsumer.palette.posModifier}
-                    : modifier === 0
-                    ? {
-                        backgroundColor: appConsumer.palette.zeroModifier,
-                      }
-                    : {backgroundColor: appConsumer.palette.negModifier},
-                  {
-                    borderColor: appConsumer.palette.mediumLight,
-                  },
-                ]}
-                onPress={
-                  props.instructionMode
-                    ? props.setModifierInstructions
-                    : toggleShowEditModifierPane
-                }>
-                <Text
+              {appConsumer.showModifers && (
+                <TouchableOpacity
+                  activeOpacity={0.5}
                   style={[
-                    styles.modifierText,
+                    styles.modifierContainer,
+                    modifier && modifier >= 0
+                      ? {backgroundColor: appConsumer.palette.posModifier}
+                      : modifier === 0
+                      ? {
+                          backgroundColor: appConsumer.palette.zeroModifier,
+                        }
+                      : {backgroundColor: appConsumer.palette.negModifier},
                     {
-                      color: appConsumer.palette.light,
+                      borderColor: appConsumer.palette.mediumLight,
                     },
-                  ]}>
-                  {modifier || 0}
-                </Text>
-              </TouchableOpacity>
+                  ]}
+                  onPress={
+                    props.instructionMode
+                      ? props.setModifierInstructions
+                      : toggleShowEditModifierPane
+                  }>
+                  <Text
+                    style={[
+                      styles.modifierText,
+                      {
+                        color: appConsumer.palette.light,
+                      },
+                    ]}>
+                    {modifier || 0}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </DieContainerComponent>
           {showEditModifierPane && !props.outsideTarget && (

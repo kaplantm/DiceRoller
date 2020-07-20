@@ -4,6 +4,7 @@ import ButtonBarButtons from './ButtonBarButtons';
 import ButtonBarEditModifier from './ButtonBarEditModifier';
 
 const ButtonBar = ({
+  showModifiers,
   instructionMode,
   setCurrentInstruction,
   setShowingInstructions,
@@ -13,6 +14,7 @@ const ButtonBar = ({
   modifier,
   getTotal,
 }: {
+  showModifiers: boolean;
   instructionMode: boolean;
   setCurrentInstruction: any;
   setShowingInstructions: any;
@@ -26,7 +28,7 @@ const ButtonBar = ({
 
   return (
     <View style={[styles.buttonBar]}>
-      {editModifier ? (
+      {showModifiers && editModifier ? (
         <ButtonBarEditModifier
           setEditModifier={setEditModifier}
           editModifier={editModifier}

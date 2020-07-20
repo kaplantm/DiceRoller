@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Die from './Die';
 import {DICE_TYPES} from '../constants/constants';
-import globalStyles from '../theme/globalStyle';
 import {AppConsumer} from './ThemeProvider';
 
 const DiceBar = ({
@@ -45,10 +44,9 @@ const DiceBar = ({
   return (
     <AppConsumer>
       {appConsumer => (
-        <View style={[!appConsumer.isDarkTheme && globalStyles.topShadow]}>
+        <View>
           <View
             style={[
-              !appConsumer.isDarkTheme && globalStyles.bottomShadow,
               styles.staticDiceContainer,
               {
                 backgroundColor: appConsumer.palette.mediumLight,
