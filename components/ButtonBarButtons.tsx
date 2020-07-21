@@ -91,17 +91,17 @@ const ButtonBarButtons = ({
               color={appConsumer.palette.dark}
             />
           </Button>
-          {hasUnlockedDice ? (
-            <Button onPress={clearAllDice}>
+          {hasUnlockedDice || instructionMode ? (
+            <Button onPress={reRollUnlocked}>
               <RerollButton
                 color={appConsumer.palette.dark}
-                hasUnlockedDice={hasUnlockedDice}
+                hasUnlockedDice={instructionMode || hasUnlockedDice}
               />
             </Button>
           ) : (
             <RerollButton
               color={appConsumer.palette.dark}
-              hasUnlockedDice={hasUnlockedDice}
+              hasUnlockedDice={instructionMode || hasUnlockedDice}
             />
           )}
           <ValueDisplay
@@ -130,12 +130,18 @@ const ButtonBarButtons = ({
               </View>
             </Button>
           )}
-          {hasDice ? (
+          {hasDice || instructionMode ? (
             <Button onPress={clearAllDice}>
-              <ClearButton color={appConsumer.palette.dark} hasDice={hasDice} />
+              <ClearButton
+                color={appConsumer.palette.dark}
+                hasDice={instructionMode || hasDice}
+              />
             </Button>
           ) : (
-            <ClearButton color={appConsumer.palette.dark} hasDice={hasDice} />
+            <ClearButton
+              color={appConsumer.palette.dark}
+              hasDice={instructionMode || hasDice}
+            />
           )}
         </>
       )}

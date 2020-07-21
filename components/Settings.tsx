@@ -1,15 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Text, Linking} from 'react-native';
 import {AppConsumer} from './ThemeProvider';
 import {EColorTheme, colorThemesArray} from '../theme/colors';
-import {
-  appSounds,
-  rollingSoundsArray,
-  eSounds,
-  playSound,
-} from '../shared/sounds';
-import Sound from 'react-native-sound';
+import {rollingSoundsArray, eSounds, playSound} from '../shared/sounds';
+import {IS_PRO} from '../app-store-config';
 
 const buttonSize = 30;
 const modifierSize = 15;
@@ -52,6 +47,16 @@ const Settings = ({
       'Change dice rolling sound effect or mute all sounds.',
     );
   }
+  function clickLinkToProInstructions() {
+    setCurrentInstruction(
+      'Get the pro version! Color schemes, sound effects, and the option to display or hide modifiers.',
+    );
+  }
+  function linkToPro() {
+    Linking.openURL(
+      'itms-apps://itunes.apple.com/us/app/apple-store/id1498289375?mt=8',
+    );
+  }
 
   return (
     <AppConsumer>
@@ -75,78 +80,100 @@ const Settings = ({
             DndDice
           </Text>
           <View style={styles.group}>
-            <TouchableOpacity
-              onPress={
-                instructionMode
-                  ? clickChangeThemeColorInstructions
-                  : () => {
-                      appConsumer.updateTheme(getNextTheme(appConsumer.theme));
-                    }
-              }
-              style={[
-                {
-                  backgroundColor: appConsumer.palette.colorSet.main,
-                  borderColor: appConsumer.palette.light,
-                },
-                styles.buttonStyle,
-              ]}>
-              <View
-                style={[
-                  styles.splitDown,
-                  {
-                    borderBottomColor: appConsumer.palette.light,
-                  },
-                ]}
-              />
-              <View
-                style={[
-                  styles.splitBorder,
-                  {borderColor: appConsumer.palette.light},
-                ]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={
-                instructionMode
-                  ? clickToggleModifiersInstructions
-                  : appConsumer.toggleShowModifers
-              }
-              style={[
-                {
-                  backgroundColor: appConsumer.palette.colorSet.main,
-                  borderColor: appConsumer.palette.mediumLight,
-                },
-                styles.buttonStyle,
-                styles.modButton,
-              ]}>
-              {appConsumer.showModifers && (
-                <View
+            {IS_PRO ? (
+              <>
+                <TouchableOpacity
+                  onPress={
+                    instructionMode
+                      ? clickChangeThemeColorInstructions
+                      : () => {
+                          appConsumer.updateTheme(
+                            getNextTheme(appConsumer.theme),
+                          );
+                        }
+                  }
                   style={[
-                    styles.circle,
                     {
-                      backgroundColor: appConsumer.palette.zeroModifier,
+                      backgroundColor: appConsumer.palette.colorSet.main,
                       borderColor: appConsumer.palette.light,
                     },
-                  ]}
-                />
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonStyle}>
-              <Icon
+                    styles.buttonStyle,
+                  ]}>
+                  <View
+                    style={[
+                      styles.splitDown,
+                      {
+                        borderBottomColor: appConsumer.palette.light,
+                      },
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.splitBorder,
+                      {borderColor: appConsumer.palette.light},
+                    ]}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={
+                    instructionMode
+                      ? clickToggleModifiersInstructions
+                      : appConsumer.toggleShowModifers
+                  }
+                  style={[
+                    {
+                      backgroundColor: appConsumer.palette.colorSet.main,
+                      borderColor: appConsumer.palette.mediumLight,
+                    },
+                    styles.buttonStyle,
+                    styles.modButton,
+                  ]}>
+                  {appConsumer.showModifers && (
+                    <View
+                      style={[
+                        styles.circle,
+                        {
+                          backgroundColor: appConsumer.palette.zeroModifier,
+                          borderColor: appConsumer.palette.light,
+                        },
+                      ]}
+                    />
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonStyle}>
+                  <Icon
+                    onPress={
+                      instructionMode
+                        ? clickChangeSoundEffectInstructions
+                        : () => {
+                            const newSound = getNextSound(appConsumer.sound);
+                            appConsumer.updateSound(newSound);
+                            playSound(newSound);
+                          }
+                    }
+                    name={appConsumer.sound}
+                    size={buttonSize}
+                    color={appConsumer.palette.light}
+                  />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <TouchableOpacity
                 onPress={
-                  instructionMode
-                    ? clickChangeSoundEffectInstructions
-                    : () => {
-                        const newSound = getNextSound(appConsumer.sound);
-                        appConsumer.updateSound(newSound);
-                        playSound(newSound);
-                      }
-                }
-                name={appConsumer.sound}
-                size={buttonSize}
-                color={appConsumer.palette.light}
-              />
-            </TouchableOpacity>
+                  instructionMode ? clickLinkToProInstructions : linkToPro
+                }>
+                <Text
+                  style={[
+                    styles.pro,
+                    {
+                      color: appConsumer.palette.lighter,
+                      borderColor: appConsumer.palette.light,
+                    },
+                  ]}>
+                  GO PRO
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       )}
@@ -162,7 +189,7 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     flexDirection: 'row',
   },
   splitDown: {
@@ -186,9 +213,22 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingLeft: 15,
+    paddingBottom: 10,
     fontWeight: '600',
     letterSpacing: 2,
     fontSize: 20,
+  },
+  pro: {
+    borderWidth: 2,
+    borderRadius: 3,
+    opacity: 0.6,
+    paddingTop: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 5,
+    margin: 10,
+    fontWeight: '600',
+    fontSize: 13,
   },
   buttonStyle: {
     position: 'relative',
