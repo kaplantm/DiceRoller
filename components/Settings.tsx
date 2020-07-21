@@ -54,7 +54,7 @@ const Settings = ({
   }
   function linkToPro() {
     Linking.openURL(
-      'itms-apps://itunes.apple.com/us/app/apple-store/id1498289375?mt=8',
+      'itms-apps://itunes.apple.com/us/app/apple-store/id1524414436?mt=8',
     );
   }
 

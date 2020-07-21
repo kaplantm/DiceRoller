@@ -1,5 +1,7 @@
 import Sound from 'react-native-sound';
 
+Sound.setCategory('Playback');
+
 export enum eSounds {
   RISE = 'trending-up',
   FALL = 'trending-down',

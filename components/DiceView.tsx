@@ -104,11 +104,18 @@ const DiceView = ({
     debounce(reRollUnlocked);
   }
 
+  const unlockedDieCount = activeDice.reduce((accumulator, die) => {
+    return die.locked ? accumulator : accumulator + 1;
+  }, 0);
+
   function reRollUnlocked() {
     if (context.sound !== eSounds.MUTE) {
-      playSound(eSounds.ERROR);
+      if (!unlockedDieCount) {
+        playSound(eSounds.ERROR);
+      } else {
+        playSound(context.sound);
+      }
     }
-
     setActiveDice(
       activeDice.map((die: iDie) => {
         if (!die.locked) {
@@ -159,10 +166,6 @@ const DiceView = ({
       setActiveDice(activeArrayCopy);
     }
   };
-
-  const unlockedDieCount = activeDice.reduce((accumulator, die) => {
-    return die.locked ? accumulator : accumulator + 1;
-  }, 0);
 
   return (
     <AppConsumer>
