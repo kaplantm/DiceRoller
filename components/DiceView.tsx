@@ -105,16 +105,10 @@ const DiceView = ({
   }
 
   function reRollUnlocked() {
-    const unlockedDieCount = activeDice.reduce((accumulator, die) => {
-      return die.locked ? accumulator : accumulator + 1;
-    }, 0);
-    if (unlockedDieCount) {
-      playSound(context.sound);
-    } else {
-      if (context.sound !== eSounds.MUTE) {
-        playSound(eSounds.ERROR);
-      }
+    if (context.sound !== eSounds.MUTE) {
+      playSound(eSounds.ERROR);
     }
+
     setActiveDice(
       activeDice.map((die: iDie) => {
         if (!die.locked) {
@@ -166,6 +160,10 @@ const DiceView = ({
     }
   };
 
+  const unlockedDieCount = activeDice.reduce((accumulator, die) => {
+    return die.locked ? accumulator : accumulator + 1;
+  }, 0);
+
   return (
     <AppConsumer>
       {appConsumer => (
@@ -216,6 +214,8 @@ const DiceView = ({
             setModifier={setModifier}
             modifier={modifier}
             getTotal={getTotal}
+            hasDice={!!activeDice.length}
+            hasUnlockedDice={!!unlockedDieCount}
           />
           <DiceBar
             instructionMode={instructionMode}

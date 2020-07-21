@@ -5,6 +5,34 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ValueDisplay from './ValueDisplay';
 import {AppConsumer} from './ThemeProvider';
 
+const ClearButton = ({hasDice, color}: {hasDice: boolean; color: string}) => {
+  return (
+    <Icon
+      name="clear"
+      size={30}
+      color={color}
+      style={!hasDice && styles.transparent}
+    />
+  );
+};
+
+const RerollButton = ({
+  hasUnlockedDice,
+  color,
+}: {
+  hasUnlockedDice: boolean;
+  color: string;
+}) => {
+  return (
+    <Icon
+      name="refresh"
+      size={30}
+      color={color}
+      style={!hasUnlockedDice && styles.transparent}
+    />
+  );
+};
+
 const ButtonBarButtons = ({
   setCurrentInstruction,
   instructionMode,
@@ -15,6 +43,8 @@ const ButtonBarButtons = ({
   setEditModifier,
   editModifier,
   getTotal,
+  hasDice,
+  hasUnlockedDice,
 }: {
   setCurrentInstruction: any;
   instructionMode: boolean;
@@ -25,6 +55,8 @@ const ButtonBarButtons = ({
   setEditModifier: any;
   editModifier: boolean;
   getTotal: () => number;
+  hasDice: boolean;
+  hasUnlockedDice: boolean;
 }) => {
   const modifierDisplay =
     modifier >= 0 ? `+ ${modifier}` : `- ${Math.abs(modifier)}`;
@@ -59,9 +91,19 @@ const ButtonBarButtons = ({
               color={appConsumer.palette.dark}
             />
           </Button>
-          <Button onPress={reRollUnlocked}>
-            <Icon name="refresh" size={30} color={appConsumer.palette.dark} />
-          </Button>
+          {hasUnlockedDice ? (
+            <Button onPress={clearAllDice}>
+              <RerollButton
+                color={appConsumer.palette.dark}
+                hasUnlockedDice={hasUnlockedDice}
+              />
+            </Button>
+          ) : (
+            <RerollButton
+              color={appConsumer.palette.dark}
+              hasUnlockedDice={hasUnlockedDice}
+            />
+          )}
           <ValueDisplay
             onPress={instructionMode ? totalInstructions : undefined}
             value={Math.floor(getTotal())}
@@ -88,9 +130,13 @@ const ButtonBarButtons = ({
               </View>
             </Button>
           )}
-          <Button onPress={clearAllDice}>
-            <Icon name="clear" size={30} color={appConsumer.palette.dark} />
-          </Button>
+          {hasDice ? (
+            <Button onPress={clearAllDice}>
+              <ClearButton color={appConsumer.palette.dark} hasDice={hasDice} />
+            </Button>
+          ) : (
+            <ClearButton color={appConsumer.palette.dark} hasDice={hasDice} />
+          )}
         </>
       )}
     </AppConsumer>
@@ -105,6 +151,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  transparent: {
+    opacity: 0.25,
   },
   text: {
     fontWeight: '600',

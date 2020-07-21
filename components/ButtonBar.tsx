@@ -13,6 +13,8 @@ const ButtonBar = ({
   setModifier,
   modifier,
   getTotal,
+  hasDice,
+  hasUnlockedDice,
 }: {
   showModifiers: boolean;
   instructionMode: boolean;
@@ -23,6 +25,8 @@ const ButtonBar = ({
   setModifier: any;
   modifier: number;
   getTotal: () => number;
+  hasDice: boolean;
+  hasUnlockedDice: boolean;
 }) => {
   const [editModifier, setEditModifier] = useState<boolean>(false);
 
@@ -46,6 +50,8 @@ const ButtonBar = ({
           clearAllDice={clearAllDice}
           modifier={modifier}
           getTotal={getTotal}
+          hasDice={hasDice}
+          hasUnlockedDice={hasUnlockedDice}
         />
       )}
     </View>
