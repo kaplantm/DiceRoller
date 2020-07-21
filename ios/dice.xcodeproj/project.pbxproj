@@ -11,11 +11,12 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7873EECA24C55B58006F0D91 /* help.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7873EEC524C55B57006F0D91 /* help.wav */; };
-		7873EECB24C55B58006F0D91 /* trending-down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7873EEC624C55B57006F0D91 /* trending-down.wav */; };
-		7873EECC24C55B58006F0D91 /* pets.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7873EEC724C55B57006F0D91 /* pets.wav */; };
-		7873EECD24C55B58006F0D91 /* music-note.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7873EEC824C55B58006F0D91 /* music-note.wav */; };
-		7873EECE24C55B58006F0D91 /* trending-up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7873EEC924C55B58006F0D91 /* trending-up.wav */; };
+		783EBE3F24C6748100029229 /* music-note.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3924C6748100029229 /* music-note.mp3 */; };
+		783EBE4024C6748100029229 /* help.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3A24C6748100029229 /* help.mp3 */; };
+		783EBE4124C6748100029229 /* trending-down.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3B24C6748100029229 /* trending-down.mp3 */; };
+		783EBE4224C6748100029229 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3C24C6748100029229 /* error.mp3 */; };
+		783EBE4324C6748100029229 /* pets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3D24C6748100029229 /* pets.mp3 */; };
+		783EBE4424C6748100029229 /* trending-up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 783EBE3E24C6748100029229 /* trending-up.mp3 */; };
 		C964C3A6F95E77E90C8A2342 /* libPods-dice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E60DC958622AB411F5005854 /* libPods-dice.a */; };
 /* End PBXBuildFile section */
 
@@ -36,11 +37,12 @@
 		2EEE967BFCB07CC960F9C900 /* Pods-dice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dice.debug.xcconfig"; path = "Target Support Files/Pods-dice/Pods-dice.debug.xcconfig"; sourceTree = "<group>"; };
 		3346A5E38BA81E1E2168AF8E /* Pods-dice-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dice-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-dice-tvOS/Pods-dice-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3636A32CE243A92E900629FD /* libPods-dice-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dice-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7873EEC524C55B57006F0D91 /* help.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = help.wav; sourceTree = "<group>"; };
-		7873EEC624C55B57006F0D91 /* trending-down.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "trending-down.wav"; sourceTree = "<group>"; };
-		7873EEC724C55B57006F0D91 /* pets.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pets.wav; sourceTree = "<group>"; };
-		7873EEC824C55B58006F0D91 /* music-note.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "music-note.wav"; sourceTree = "<group>"; };
-		7873EEC924C55B58006F0D91 /* trending-up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "trending-up.wav"; sourceTree = "<group>"; };
+		783EBE3924C6748100029229 /* music-note.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "music-note.mp3"; sourceTree = "<group>"; };
+		783EBE3A24C6748100029229 /* help.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = help.mp3; sourceTree = "<group>"; };
+		783EBE3B24C6748100029229 /* trending-down.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "trending-down.mp3"; sourceTree = "<group>"; };
+		783EBE3C24C6748100029229 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
+		783EBE3D24C6748100029229 /* pets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pets.mp3; sourceTree = "<group>"; };
+		783EBE3E24C6748100029229 /* trending-up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "trending-up.mp3"; sourceTree = "<group>"; };
 		88BD3D9C99075F699511F444 /* Pods-diceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diceTests.debug.xcconfig"; path = "Target Support Files/Pods-diceTests/Pods-diceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC43539F3BAA47B521136D5E /* Pods-dice-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dice-tvOS.release.xcconfig"; path = "Target Support Files/Pods-dice-tvOS/Pods-dice-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		C0001C8F76E240234B8F1212 /* Pods-dice-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dice-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-dice-tvOSTests/Pods-dice-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -110,11 +112,12 @@
 		7873EECF24C55D13006F0D91 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
-				7873EEC624C55B57006F0D91 /* trending-down.wav */,
-				7873EEC524C55B57006F0D91 /* help.wav */,
-				7873EEC724C55B57006F0D91 /* pets.wav */,
-				7873EEC824C55B58006F0D91 /* music-note.wav */,
-				7873EEC924C55B58006F0D91 /* trending-up.wav */,
+				783EBE3C24C6748100029229 /* error.mp3 */,
+				783EBE3A24C6748100029229 /* help.mp3 */,
+				783EBE3924C6748100029229 /* music-note.mp3 */,
+				783EBE3D24C6748100029229 /* pets.mp3 */,
+				783EBE3B24C6748100029229 /* trending-down.mp3 */,
+				783EBE3E24C6748100029229 /* trending-up.mp3 */,
 			);
 			path = sounds;
 			sourceTree = "<group>";
@@ -234,13 +237,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7873EECC24C55B58006F0D91 /* pets.wav in Resources */,
-				7873EECB24C55B58006F0D91 /* trending-down.wav in Resources */,
+				783EBE3F24C6748100029229 /* music-note.mp3 in Resources */,
+				783EBE4324C6748100029229 /* pets.mp3 in Resources */,
+				783EBE4024C6748100029229 /* help.mp3 in Resources */,
+				783EBE4124C6748100029229 /* trending-down.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				7873EECD24C55B58006F0D91 /* music-note.wav in Resources */,
-				7873EECA24C55B58006F0D91 /* help.wav in Resources */,
-				7873EECE24C55B58006F0D91 /* trending-up.wav in Resources */,
+				783EBE4424C6748100029229 /* trending-up.mp3 in Resources */,
+				783EBE4224C6748100029229 /* error.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

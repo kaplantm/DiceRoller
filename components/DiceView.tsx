@@ -6,7 +6,7 @@ import Die from '../components/Die';
 import {iDie} from '../types/types';
 import ButtonBar from '../components/ButtonBar';
 import {AppConsumer, AppContext} from './ThemeProvider';
-import {appSounds, eSounds, playSound} from '../shared/sounds';
+import {eSounds, playSound} from '../shared/sounds';
 
 const DiceView = ({
   setInstructionMode,
@@ -105,9 +105,15 @@ const DiceView = ({
   }
 
   function reRollUnlocked() {
-    if (activeDice && activeDice.length) {
-      // TODO: error sound
+    const unlockedDieCount = activeDice.reduce((accumulator, die) => {
+      return die.locked ? accumulator : accumulator + 1;
+    }, 0);
+    if (unlockedDieCount) {
       playSound(context.sound);
+    } else {
+      if (context.sound !== eSounds.MUTE) {
+        playSound(eSounds.ERROR);
+      }
     }
     setActiveDice(
       activeDice.map((die: iDie) => {

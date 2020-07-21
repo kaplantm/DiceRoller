@@ -3,7 +3,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {AppConsumer} from './ThemeProvider';
 import {EColorTheme, colorThemesArray} from '../theme/colors';
-import {appSounds, appSoundsArray, eSounds, playSound} from '../shared/sounds';
+import {
+  appSounds,
+  rollingSoundsArray,
+  eSounds,
+  playSound,
+} from '../shared/sounds';
 import Sound from 'react-native-sound';
 
 const buttonSize = 30;
@@ -19,17 +24,37 @@ function getNextTheme(currentTheme = EColorTheme.BLUE) {
 }
 
 function getNextSound(currentSound = eSounds.MUTE) {
-  const currentIndex = appSoundsArray.indexOf(currentSound);
+  const currentIndex = rollingSoundsArray.indexOf(currentSound);
 
   if (currentIndex === -1) {
-    return appSoundsArray[0];
+    return rollingSoundsArray[0];
   }
-  return appSoundsArray[(currentIndex + 1) % appSoundsArray.length];
+  return rollingSoundsArray[(currentIndex + 1) % rollingSoundsArray.length];
 }
 
 // TODO: collaspble settings icon
 // TODO: hide modifiers
-const Settings = () => {
+const Settings = ({
+  instructionMode,
+  setCurrentInstruction,
+}: {
+  instructionMode: boolean;
+  setCurrentInstruction: (instruction: string) => void;
+}) => {
+  function clickChangeThemeColorInstructions() {
+    setCurrentInstruction('Change color theme.');
+  }
+  function clickToggleModifiersInstructions() {
+    setCurrentInstruction(
+      'Toggle modifier usage. Hidden modifiers will not be included in total.',
+    );
+  }
+  function clickChangeSoundEffectInstructions() {
+    setCurrentInstruction(
+      'Change dice rolling sound effect or mute all sounds.',
+    );
+  }
+
   return (
     <AppConsumer>
       {appConsumer => (
@@ -53,9 +78,13 @@ const Settings = () => {
           </Text>
           <View style={styles.group}>
             <TouchableOpacity
-              onPress={() => {
-                appConsumer.updateTheme(getNextTheme(appConsumer.theme));
-              }}
+              onPress={
+                instructionMode
+                  ? clickChangeThemeColorInstructions
+                  : () => {
+                      appConsumer.updateTheme(getNextTheme(appConsumer.theme));
+                    }
+              }
               style={[
                 {
                   backgroundColor: appConsumer.palette.colorSet.main,
@@ -79,7 +108,11 @@ const Settings = () => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={appConsumer.toggleShowModifers}
+              onPress={
+                instructionMode
+                  ? clickToggleModifiersInstructions
+                  : appConsumer.toggleShowModifers
+              }
               style={[
                 {
                   backgroundColor: appConsumer.palette.colorSet.main,
@@ -102,11 +135,15 @@ const Settings = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonStyle}>
               <Icon
-                onPress={() => {
-                  const newSound = getNextSound(appConsumer.sound);
-                  appConsumer.updateSound(newSound);
-                  playSound(newSound);
-                }}
+                onPress={
+                  instructionMode
+                    ? clickChangeSoundEffectInstructions
+                    : () => {
+                        const newSound = getNextSound(appConsumer.sound);
+                        appConsumer.updateSound(newSound);
+                        playSound(newSound);
+                      }
+                }
                 name={appConsumer.sound}
                 size={buttonSize}
                 color={appConsumer.palette.light}

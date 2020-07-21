@@ -9,7 +9,14 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, PanResponder} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  PanResponder,
+  StatusBar,
+} from 'react-native';
 import DiceView from './components/DiceView';
 import Settings from './components/Settings';
 import {AppContextProvider, AppConsumer} from './components/ThemeProvider';
@@ -43,57 +50,65 @@ const App = () => {
     setOutsideTarget(false);
   };
 
-  // TODO: clock/battery stuff to white
-  // TODO: detect dark mode, use dark if no other theme set
-  // TODO: trim audio clips to start sooner
-  // TODO: add settings stuff to instructions
   // TODO: local story for settings
-
   return (
     <AppContextProvider>
       <AppConsumer>
         {appConsumer => (
-          <View
-            style={[
-              styles.appContainer,
-              {
-                backgroundColor: appConsumer.palette.light,
-              },
-            ]}
-            {...(panResponder ? panResponder.panHandlers : {})}>
-            <SafeAreaView
-              style={[styles.top, {backgroundColor: appConsumer.palette.dark}]}
+          <>
+            <StatusBar
+              barStyle={
+                appConsumer.isDarkTheme ? 'dark-content' : 'light-content'
+              }
             />
-            <SafeAreaView
-              style={styles.appContainer}
+            <View
+              style={[
+                styles.appContainer,
+                {
+                  backgroundColor: appConsumer.palette.light,
+                },
+              ]}
               {...(panResponder ? panResponder.panHandlers : {})}>
-              <Settings />
-              {instructionMode && (
-                <View
-                  style={[
-                    styles.instructionContainer,
-                    {
-                      backgroundColor: appConsumer.palette.dark,
-                    },
-                  ]}>
-                  <Text
-                    style={[
-                      styles.instructionContainerText,
-                      {color: appConsumer.palette.light},
-                    ]}>
-                    {currentInstruction}
-                  </Text>
-                </View>
-              )}
-              <DiceView
-                setInstructionMode={setInstructionMode}
-                instructionMode={instructionMode}
-                setCurrentInstruction={setCurrentInstruction}
-                setOutsideTargetFunc={setOutsideTargetFunc}
-                outsideTarget={outsideTarget}
+              <SafeAreaView
+                style={[
+                  styles.top,
+                  {backgroundColor: appConsumer.palette.dark},
+                ]}
               />
-            </SafeAreaView>
-          </View>
+              <SafeAreaView
+                style={styles.appContainer}
+                {...(panResponder ? panResponder.panHandlers : {})}>
+                <Settings
+                  instructionMode={instructionMode}
+                  setCurrentInstruction={setCurrentInstruction}
+                />
+                {instructionMode && (
+                  <View
+                    style={[
+                      styles.instructionContainer,
+                      {
+                        backgroundColor: appConsumer.palette.dark,
+                      },
+                    ]}>
+                    <Text
+                      style={[
+                        styles.instructionContainerText,
+                        {color: appConsumer.palette.light},
+                      ]}>
+                      {currentInstruction}
+                    </Text>
+                  </View>
+                )}
+                <DiceView
+                  setInstructionMode={setInstructionMode}
+                  instructionMode={instructionMode}
+                  setCurrentInstruction={setCurrentInstruction}
+                  setOutsideTargetFunc={setOutsideTargetFunc}
+                  outsideTarget={outsideTarget}
+                />
+              </SafeAreaView>
+            </View>
+          </>
         )}
       </AppConsumer>
     </AppContextProvider>
