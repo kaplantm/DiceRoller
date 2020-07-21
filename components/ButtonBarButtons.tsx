@@ -52,7 +52,7 @@ const ButtonBarButtons = ({
     <AppConsumer>
       {appConsumer => (
         <>
-          <Button onPress={toggleInstructions} neumorphism={false}>
+          <Button onPress={toggleInstructions}>
             <Icon
               name="help-outline"
               size={30}

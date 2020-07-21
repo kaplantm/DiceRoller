@@ -32,8 +32,6 @@ function getNextSound(currentSound = eSounds.MUTE) {
   return rollingSoundsArray[(currentIndex + 1) % rollingSoundsArray.length];
 }
 
-// TODO: collaspble settings icon
-// TODO: hide modifiers
 const Settings = ({
   instructionMode,
   setCurrentInstruction,

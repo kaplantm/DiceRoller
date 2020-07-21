@@ -50,7 +50,6 @@ const App = () => {
     setOutsideTarget(false);
   };
 
-  // TODO: local story for settings
   return (
     <AppContextProvider>
       <AppConsumer>

@@ -6,12 +6,10 @@ const Button = ({
   children,
   onPress,
   style = {},
-  neumorphism = true, // TODO: remove
 }: {
   children: any;
   onPress?: any;
   style?: object;
-  neumorphism?: boolean;
 }) => {
   return (
     <AppConsumer>
