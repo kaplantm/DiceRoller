@@ -1,1 +1,1 @@
-export const IS_PRO = true;
+export const IS_PRO = false;
