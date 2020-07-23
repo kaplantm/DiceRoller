@@ -8,10 +8,11 @@ import {
   MODIFIER_STORAGE_KEY,
   storeLocalData,
 } from '../shared/asyncStorage';
+import {IS_PRO} from '../app-store-config';
 
 const isDarkTheme = (theme: string) => theme.indexOf('dark') !== -1;
 
-const defaultTheme: EColorTheme = EColorTheme.BLUE;
+const defaultTheme: EColorTheme = IS_PRO ? EColorTheme.RED : EColorTheme.BLUE;
 const defaultSound: eSounds = eSounds.MUTE;
 
 const defaultStateValues = {
@@ -82,7 +83,9 @@ export class AppContextProvider extends Component {
   }
 
   componentDidMount() {
-    this.loadFromStorage();
+    if (IS_PRO) {
+      this.loadFromStorage();
+    }
   }
 
   render() {

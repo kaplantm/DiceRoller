@@ -109,13 +109,12 @@ const DiceView = ({
   }, 0);
 
   function reRollUnlocked() {
-    if (context.sound !== eSounds.MUTE) {
-      if (!unlockedDieCount) {
-        playSound(eSounds.ERROR);
-      } else {
-        playSound(context.sound);
-      }
+    if (!unlockedDieCount) {
+      playSound(eSounds.ERROR);
+    } else {
+      playSound(context.sound);
     }
+
     setActiveDice(
       activeDice.map((die: iDie) => {
         if (!die.locked) {
