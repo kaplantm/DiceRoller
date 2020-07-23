@@ -15,6 +15,7 @@ export enum eSounds {
 export function createSound(fileName: string) {
   const sound = new Sound(fileName, Sound.MAIN_BUNDLE, error => {
     if (error) {
+      console.log(`Failed to initialize audio, filename: ${fileName}`, error);
       return;
     }
   });
@@ -38,19 +39,18 @@ export const rollingSoundsArray: eSounds[] = Object.keys(appSounds).slice(
 ) as eSounds[];
 
 export function playSound(soundName: eSounds) {
-  // stop all other sounds
+  // stop all sounds
   rollingSoundsArray.map((sound: any) => {
     if (sound && sound.stop) {
       sound.stop();
     }
   });
 
-  if (!soundName) {
+  if (!soundName || soundName === eSounds.MUTE) {
     return;
   }
   const sound = appSounds[soundName];
   if (sound) {
-    sound.stop();
     sound.play();
   }
 }

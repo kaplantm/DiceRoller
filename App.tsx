@@ -21,6 +21,10 @@ import DiceView from './components/DiceView';
 import Settings from './components/Settings';
 import {AppContextProvider, AppConsumer} from './components/ThemeProvider';
 
+// TODO: change name of pro app in xcode
+// TODO: app icon for pro version
+// TODO: ipad images for both?
+
 const App = () => {
   const [instructionMode, setInstructionMode] = useState<boolean>(false);
 
