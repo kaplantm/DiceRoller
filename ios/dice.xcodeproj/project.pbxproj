@@ -211,7 +211,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = JPF5Z7WZGR;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -387,14 +387,14 @@
 			baseConfigurationReference = 2EEE967BFCB07CC960F9C900 /* Pods-dice.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.01;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.03;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = JPF5Z7WZGR;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = dice/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.00;
+				MARKETING_VERSION = 1.03;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -402,7 +402,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.dn.dice.tk;
 				PRODUCT_NAME = DndDice;
-				PROVISIONING_PROFILE_SPECIFIER = "Dice Roller Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -413,13 +413,13 @@
 			baseConfigurationReference = 14B304091BF303A4E4F67CD9 /* Pods-dice.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.01;
-				DEVELOPMENT_TEAM = JPF5Z7WZGR;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.03;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = dice/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.00;
+				MARKETING_VERSION = 1.03;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -427,7 +427,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.dn.dice.tk;
 				PRODUCT_NAME = DndDice;
-				PROVISIONING_PROFILE_SPECIFIER = "Dice Roller Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
